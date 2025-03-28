@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String            @id @default(uuid())
+  firstName    String
+  lastName     String
+  email        String            @unique
+  password     String
+  role         Role              @default(User)
+  total_points Int               @default(0)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  quizAnswers  UserQuizAnswers[]
+}
+
+model Quiz {
+  id              String            @id @default(uuid())
+  title           String
+  categoryId      String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  category        Category          @relation(fields: [categoryId], references: [id])
+  quizQuestions   QuizQuestion[]
+  userQuizAnswers UserQuizAnswers[]
+}
+
+model UserQuizAnswers {
+  id        String   @id @default(uuid())
+  userId    String
+  quizId    String
+  answers   Json
+  points    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Question {
+  id            String         @id @default(uuid())
+  title         String
+  type          QuestionType
+  categoryId    String
+  min           Int?
+  max           Int?
+  step          Int?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  options       Json?
+  correctAnswer Json?
+  category      Category       @relation(fields: [categoryId], references: [id])
+  quizQuestions QuizQuestion[]
+}
+
+model QuizQuestion {
+  id         String   @id @default(uuid())
+  quizId     String
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  quiz       Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id        String     @id @default(uuid())
+  title     String
+  imageUrl  String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  questions Question[]
+  quizzes   Quiz[]
+}
+
+enum QuestionType {
+  Field
+  TextArea
+  Select
+  Checkbox
+  Date
+  Number
+  Slider
+  Match
+  Order
+}
+
+enum Role {
+  User
+  Admin
+}
