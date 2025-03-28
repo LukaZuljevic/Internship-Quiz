@@ -1,26 +1,96 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class QuizService {
-  create(createQuizDto: CreateQuizDto) {
-    return 'This action adds a new quiz';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createQuizDto: CreateQuizDto) {
+    const newQuiz = await this.prisma.quiz.create({
+      data: createQuizDto,
+    });
+
+    return newQuiz;
   }
 
-  findAll() {
-    return `This action returns all quiz`;
+  async findAll() {
+    const allQuizzes = await this.prisma.quiz.findMany({
+      select: {
+        title: true,
+        category: {
+          select: {
+            title: true,
+            imageUrl: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    return allQuizzes;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} quiz`;
+  async findOne(id: string) {
+    const quiz = await this.prisma.quiz.findUnique({
+      where: { id },
+      select: {
+        title: true,
+        category: {
+          select: {
+            title: true,
+            imageUrl: true,
+          },
+        },
+        quizQuestions: {
+          select: {
+            question: {
+              select: {
+                title: true,
+                type: true,
+                options: true,
+                correctAnswer: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!quiz) throw new NotFoundException('Quiz not found');
+
+    return quiz;
   }
 
-  update(id: number, updateQuizDto: UpdateQuizDto) {
-    return `This action updates a #${id} quiz`;
+  async update(id: string, updateQuizDto: UpdateQuizDto) {
+    const quizToUpdate = await this.prisma.quiz.findUnique({
+      where: { id },
+    });
+
+    if (!quizToUpdate) throw new NotFoundException('That quiz does not exist');
+
+    const updatedQuiz = await this.prisma.quiz.update({
+      where: { id },
+      data: updateQuizDto,
+    });
+
+    return updatedQuiz;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} quiz`;
+  async delete(id: string) {
+    const quizToDelete = await this.prisma.quiz.findUnique({
+      where: { id },
+    });
+
+    if (!quizToDelete) throw new NotFoundException('That quiz does not exist');
+
+    const deletedQuiz = await this.prisma.quiz.delete({
+      where: { id },
+    });
+
+    return deletedQuiz;
   }
 }

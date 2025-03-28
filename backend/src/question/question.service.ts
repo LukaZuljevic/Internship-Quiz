@@ -23,7 +23,6 @@ export class QuestionService {
         category: {
           select: {
             title: true,
-            imageUrl: true,
           },
         },
         options: true,
