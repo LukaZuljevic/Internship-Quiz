@@ -65,6 +65,30 @@ export class QuizService {
     return quiz;
   }
 
+  async findByTitle(title: string) {
+    const quizesWithTitle = await this.prisma.quiz.findMany({
+      where: {
+        title: {
+          contains: title,
+          mode: 'insensitive',
+        },
+      },
+      select: {
+        title: true,
+        category: {
+          select: {
+            title: true,
+          },
+        },
+      },
+    });
+
+    if (!quizesWithTitle.length)
+      throw new NotFoundException('Quiz with that title not found');
+
+    return quizesWithTitle;
+  }
+
   async update(id: string, updateQuizDto: UpdateQuizDto) {
     const quizToUpdate = await this.prisma.quiz.findUnique({
       where: { id },

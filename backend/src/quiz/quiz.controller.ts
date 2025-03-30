@@ -36,15 +36,16 @@ export class QuizController {
     return quiz;
   }
 
+  @Get('search/:title')
+  async findByTitle(@Param('title') title: string) {
+    const quiz = await this.quizService.findByTitle(title);
+
+    return quiz;
+  }
+
   @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() updateQuizDto: UpdateQuizDto,
-  ) {
-    const updatedQuiz = await this.quizService.update(
-      id,
-      updateQuizDto,
-    );
+  async update(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto) {
+    const updatedQuiz = await this.quizService.update(id, updateQuizDto);
 
     return updatedQuiz;
   }

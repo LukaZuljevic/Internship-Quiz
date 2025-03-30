@@ -8,16 +8,16 @@ datasource db {
 }
 
 model User {
-  id           String            @id @default(uuid())
-  firstName    String
-  lastName     String
-  email        String            @unique
-  password     String
-  role         Role              @default(User)
-  total_points Int               @default(0)
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
-  quizAnswers  UserQuizAnswers[]
+  id          String            @id @default(uuid())
+  firstName   String
+  lastName    String
+  email       String            @unique
+  password    String
+  role        Role              @default(User)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  totalPoints Int               @default(0)
+  quizAnswers UserQuizAnswers[]
 }
 
 model Quiz {
@@ -54,7 +54,7 @@ model Question {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   options       Json?
-  correctAnswer Json?
+  correctAnswer Json
   category      Category       @relation(fields: [categoryId], references: [id])
   quizQuestions QuizQuestion[]
 }
@@ -69,7 +69,7 @@ model QuizQuestion {
 
 model Category {
   id        String     @id @default(uuid())
-  title     String
+  title     String     @unique
   imageUrl  String?
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt

@@ -1,26 +1,94 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateQuizQuestionDto } from './dto/create-quiz-question.dto';
-import { UpdateQuizQuestionDto } from './dto/update-quiz-question.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class QuizQuestionService {
-  create(createQuizQuestionDto: CreateQuizQuestionDto) {
-    return 'This action adds a new quizQuestion';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createQuizQuestionDto: CreateQuizQuestionDto) {
+    const quiz = await this.prisma.quiz.findUnique({
+      where: { id: createQuizQuestionDto.quizId },
+    });
+
+    if (!quiz) throw new NotFoundException('Quiz not found');
+
+    const newQuizQuestion = await this.prisma.quizQuestion.create({
+      data: createQuizQuestionDto,
+      include: {
+        quiz: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+        question: {
+          select: {
+            id: true,
+            title: true,
+            type: true,
+          },
+        },
+      },
+    });
+
+    return newQuizQuestion;
   }
 
-  findAll() {
-    return `This action returns all quizQuestion`;
+  async findOne(id: string) {
+    const quizQuestion = await this.prisma.quizQuestion.findUnique({
+      where: { id },
+      include: {
+        quiz: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+        question: {
+          select: {
+            id: true,
+            title: true,
+            type: true,
+            options: true,
+            correctAnswer: true,
+          },
+        },
+      },
+    });
+
+    if (!quizQuestion) throw new NotFoundException('Quiz question not found');
+
+    return quizQuestion;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} quizQuestion`;
-  }
+  async remove(id: string) {
+    const quizQuestionExists = await this.prisma.quizQuestion.findUnique({
+      where: { id },
+    });
 
-  update(id: number, updateQuizQuestionDto: UpdateQuizQuestionDto) {
-    return `This action updates a #${id} quizQuestion`;
-  }
+    if (!quizQuestionExists)
+      throw new NotFoundException('Quiz question not found');
 
-  remove(id: number) {
-    return `This action removes a #${id} quizQuestion`;
+    const deletedQuizQuestion = await this.prisma.quizQuestion.delete({
+      where: { id },
+      include: {
+        quiz: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+        question: {
+          select: {
+            id: true,
+            title: true,
+            type: true,
+          },
+        },
+      },
+    });
+
+    return deletedQuizQuestion;
   }
 }
