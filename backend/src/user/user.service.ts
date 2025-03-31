@@ -64,14 +64,6 @@ export class UserService {
     };
   }
 
-  async create(createUserDto: CreateUserDto) {
-    const newUser = await this.prisma.user.create({
-      data: createUserDto,
-    });
-
-    return newUser;
-  }
-
   async findAll() {
     const allUsers = await this.prisma.user.findMany({
       select: {

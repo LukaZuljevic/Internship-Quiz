@@ -7,15 +7,19 @@ import {
   Param,
   Delete,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
+import { AdminAuthGuard } from 'src/user/admin-auth.guard';
+import { UserAuthGuard } from 'src/user/user-auth.guard';
 
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
+  @UseGuards(AdminAuthGuard)
   async create(@Body() createCategoryDto: CreateCategoryDto) {
     const newCategory = await this.categoryService.create(createCategoryDto);
 
@@ -23,6 +27,7 @@ export class CategoryController {
   }
 
   @Get()
+  @UseGuards(UserAuthGuard)
   async findAll() {
     const allCategories = await this.categoryService.findAll();
 
@@ -30,6 +35,7 @@ export class CategoryController {
   }
 
   @Get(':id')
+  @UseGuards(UserAuthGuard)
   async findOne(@Param('id') id: string) {
     const category = await this.categoryService.findOne(id);
 
@@ -39,6 +45,7 @@ export class CategoryController {
   }
 
   @Delete(':id')
+  @UseGuards(AdminAuthGuard)
   async delete(@Param('id') id: string) {
     const deletedCategory = await this.categoryService.delete(id);
 

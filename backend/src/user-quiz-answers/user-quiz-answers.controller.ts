@@ -1,12 +1,7 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { UserQuizAnswersService } from './user-quiz-answers.service';
 import { CreateUserQuizAnswerDto } from './dto/create-user-quiz-answer.dto';
+import { UserAuthGuard } from 'src/user/user-auth.guard';
 
 @Controller('user-quiz-answers')
 export class UserQuizAnswersController {
@@ -24,6 +19,7 @@ export class UserQuizAnswersController {
   }
 
   @Get('answers/quiz/:quizId/user/:userId')
+  @UseGuards(UserAuthGuard)
   async findByQuizAndUser(
     @Param('quizId') quizId: string,
     @Param('userId') userId: string,
@@ -32,6 +28,7 @@ export class UserQuizAnswersController {
   }
 
   @Get('answers/quiz/:quizId')
+  @UseGuards(UserAuthGuard)
   async findAllByQuiz(@Param('quizId') quizId: string) {
     return this.userQuizAnswersService.findAllByQuizId(quizId);
   }
