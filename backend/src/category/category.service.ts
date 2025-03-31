@@ -7,12 +7,9 @@ export class CategoryService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
-    const sameCategory = await this.prisma.category.findFirst({
+    const sameCategory = await this.prisma.category.findUnique({
       where: {
-        title: {
-          equals: createCategoryDto.title,
-          mode: 'insensitive',
-        },
+        title: createCategoryDto.title,
       },
     });
 

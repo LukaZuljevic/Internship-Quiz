@@ -1,23 +1,38 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+} from '@nestjs/common';
 import { UserQuizAnswersService } from './user-quiz-answers.service';
 import { CreateUserQuizAnswerDto } from './dto/create-user-quiz-answer.dto';
 
 @Controller('user-quiz-answers')
 export class UserQuizAnswersController {
-  constructor(private readonly userQuizAnswersService: UserQuizAnswersService) {}
+  constructor(
+    private readonly userQuizAnswersService: UserQuizAnswersService,
+  ) {}
 
   @Post()
-  create(@Body() createUserQuizAnswerDto: CreateUserQuizAnswerDto) {
-    return this.userQuizAnswersService.create(createUserQuizAnswerDto);
+  async create(@Body() createUserQuizAnswerDto: CreateUserQuizAnswerDto) {
+    const newUserQuizAnswers = await this.userQuizAnswersService.create(
+      createUserQuizAnswerDto,
+    );
+
+    return newUserQuizAnswers;
   }
 
-  @Get()
-  findAll() {
-    return this.userQuizAnswersService.findAll();
+  @Get('answers/quiz/:quizId/user/:userId')
+  async findByQuizAndUser(
+    @Param('quizId') quizId: string,
+    @Param('userId') userId: string,
+  ) {
+    return this.userQuizAnswersService.findByQuizAndUserId(quizId, userId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userQuizAnswersService.findOne(+id);
+  @Get('answers/quiz/:quizId')
+  async findAllByQuiz(@Param('quizId') quizId: string) {
+    return this.userQuizAnswersService.findAllByQuizId(quizId);
   }
 }

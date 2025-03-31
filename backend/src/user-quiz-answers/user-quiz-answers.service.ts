@@ -1,18 +1,77 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserQuizAnswerDto } from './dto/create-user-quiz-answer.dto';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class UserQuizAnswersService {
-  create(createUserQuizAnswerDto: CreateUserQuizAnswerDto) {
-    return 'This action adds a new userQuizAnswer';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createUserQuizAnswerDto: CreateUserQuizAnswerDto) {
+    const newUserQuizAnswers = await this.prisma.userQuizAnswers.create({
+      data: createUserQuizAnswerDto,
+    });
+
+    return newUserQuizAnswers;
   }
 
-  findAll() {
-    return `This action returns all userQuizAnswers`;
+  async findByQuizAndUserId(quizId: string, userId: string) {
+    const answer = await this.prisma.userQuizAnswers.findFirst({
+      where: {
+        quizId,
+        userId,
+      },
+      include: {
+        quiz: {
+          select: {
+            title: true,
+            quizQuestions: {
+              include: {
+                question: true,
+              },
+            },
+          },
+        },
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    if (!answer)
+      throw new NotFoundException('Answers for that quiz by not found');
+
+    return answer;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userQuizAnswer`;
-  }
+  async findAllByQuizId(quizId: string) {
+    const answers = await this.prisma.userQuizAnswers.findMany({
+      where: {
+        quizId,
+      },
+      include: {
+        quiz: {
+          select: {
+            title: true,
+          },
+        },
+        user: {
+          select: {
+            firstName: true,
+            lastName: true,
+            email: true,
+            totalPoints: true,
+          },
+        },
+      },
+      orderBy: {
+        points: 'desc',
+      },
+    });
 
+    return answers;
+  }
 }
