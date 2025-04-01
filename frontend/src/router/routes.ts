@@ -3,5 +3,7 @@ type Routes = {
 };
 
 export const ROUTES: Routes = {
-  QUIZESPAGE: "/",
+  QUIZZES_PAGE: "/",
+  QUIZ_PAGE: "/:quizId",
+  NOT_FOUND_PAGE: "*",
 };
