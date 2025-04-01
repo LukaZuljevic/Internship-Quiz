@@ -3,5 +3,5 @@ type Routes = {
 };
 
 export const ROUTES: Routes = {
-  HOMEPAGE: "/",
+  QUIZESPAGE: "/",
 };
