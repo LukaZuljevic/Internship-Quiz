@@ -18,6 +18,7 @@ export class QuizService {
   async findAll() {
     const allQuizzes = await this.prisma.quiz.findMany({
       select: {
+        id: true,
         title: true,
         category: {
           select: {
@@ -66,6 +67,8 @@ export class QuizService {
   }
 
   async findByTitle(title: string) {
+    if (!title) return this.findAll();
+
     const quizesWithTitle = await this.prisma.quiz.findMany({
       where: {
         title: {
@@ -74,6 +77,7 @@ export class QuizService {
         },
       },
       select: {
+        id: true,
         title: true,
         category: {
           select: {
@@ -82,9 +86,6 @@ export class QuizService {
         },
       },
     });
-
-    if (!quizesWithTitle.length)
-      throw new NotFoundException('Quiz with that title not found');
 
     return quizesWithTitle;
   }

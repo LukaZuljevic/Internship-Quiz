@@ -1,19 +1,24 @@
-// import { fetchAllQuizes } from "../services/AllQuizzesApi";
+import { fetchAllQuizzes } from "../services/AllQuizzesApi";
+import { Quiz } from "../types/Quiz";
 
-// type UseFetchAllQuizzesReturn = {
-//   fetchData: () => Promise<void>;
-// };
+type UseFetchAllQuizzesReturn = {
+  fetchAllQuizzesData: () => Promise<void>;
+};
 
-// export const useFetchAllQuizzes = (
-//   setData: () => void
-// ): UseFetchAllQuizzesReturn => {
-//   try {
-//     const fetchedData = await fetchAllQuizes();
+export const useFetchAllQuizzes = (
+  setData: (items: Quiz[]) => void
+): UseFetchAllQuizzesReturn => {
+  const fetchAllQuizzesData = async () => {
+    try {
+      const fetchedData = await fetchAllQuizzes();
 
-//     if (fetchedData) setData(fetchedData);
-//   } catch (error) {
-//     alert("Error", error);
-//   }
+      if (fetchedData) setData(fetchedData);
+    } catch (error) {
+      alert(`Error:  ${error}`);
+    }
+  };
 
-//   return { fetchData };
-// };
+  return { fetchAllQuizzesData };
+};
+
+//ovo ne koristis za sad, ako ne budes koristia ni kasnije izbrisi!!

@@ -1,13 +1,35 @@
 import c from "./QuizzesPage.module.css";
-import { fetchAllQuizes } from "../../services/AllQuizzesApi";
-import { useState } from "react";
+import { useFetchQuizzesBySearch } from "../../hooks/useFetchQuizzesBySearch";
+import { useState, useEffect } from "react";
+import { Quiz } from "../../types/Quiz";
+import { useSearchParams } from "react-router-dom";
 
 export const QuizzesPage = () => {
-  const [data, setData] = useState();
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("search") || "";
 
-  const data1 = fetchAllQuizes();
+  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const { fetchQuizzesBySearchData } = useFetchQuizzesBySearch({
+    setData: setQuizzes,
+    search,
+  });
 
-  console.log(data1);
+  useEffect(() => {
+    fetchQuizzesBySearchData(search);
+  }, [search]);
 
-  return <h1>QuizzesPage</h1>;
+  return (
+    <div>
+      <h1>Quizzes Page</h1>
+      {quizzes.length > 0 ? (
+        <ul>
+          {quizzes.map((quiz) => (
+            <li key={quiz.id}>{quiz.title}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>No quizzes found.</p>
+      )}
+    </div>
+  );
 };

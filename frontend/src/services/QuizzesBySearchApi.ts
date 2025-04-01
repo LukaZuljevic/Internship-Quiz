@@ -1,7 +1,7 @@
 import { QUIZ_API_PATH } from "../constants";
 
-export const fetchAllQuizzes = async () => {
-  const url = `${QUIZ_API_PATH}`;
+export const fetchQuizzesBySearch = async (search: string) => {
+  const url = `${QUIZ_API_PATH}/search/${search}`;
   const token = localStorage.getItem("jwt");
 
   const response = await fetch(url, {

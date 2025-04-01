@@ -4,6 +4,7 @@ import { QuizzesPage } from "../pages/QuizzesPage";
 import { Layout } from "../pages/Layout";
 import { QuizPage } from "../pages/QuizPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
+import { Toaster } from "react-hot-toast";
 
 export const AppRouter = () => {
   return (
@@ -15,6 +16,7 @@ export const AppRouter = () => {
         </Route>
         <Route path={ROUTES.NOT_FOUND_PAGE} element={<NotFoundPage />} />
       </Routes>
+      <Toaster />
     </Router>
   );
 };
