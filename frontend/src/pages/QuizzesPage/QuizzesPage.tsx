@@ -3,6 +3,7 @@ import { useFetchQuizzesBySearch } from "../../hooks/useFetchQuizzesBySearch";
 import { useState, useEffect } from "react";
 import { Quiz } from "../../types/Quiz";
 import { useSearchParams } from "react-router-dom";
+import { QuizList } from "../../components/QuizList";
 
 export const QuizzesPage = () => {
   const [searchParams] = useSearchParams();
@@ -18,18 +19,14 @@ export const QuizzesPage = () => {
     fetchQuizzesBySearchData(search);
   }, [search]);
 
-
   return (
     <div>
-      <h1>Quizzes Page</h1>
       {quizzes.length > 0 ? (
-        <ul>
-          {quizzes.map((quiz) => (
-            <li key={quiz.id}>{quiz.title}</li>
-          ))}
-        </ul>
+        <QuizList quizzes={quizzes} />
       ) : (
-        <p>No quizzes found.</p>
+        <p className={c.noQuizFound}>
+          No quizzes found. Search something different!
+        </p>
       )}
     </div>
   );

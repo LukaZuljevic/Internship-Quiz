@@ -80,6 +80,7 @@ export class QuizService {
         category: {
           select: {
             title: true,
+            imageUrl: true,
           },
         },
       },
