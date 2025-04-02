@@ -115,7 +115,7 @@ async function main() {
       {
         id: '1',
         title: 'What is the capital of France?',
-        options: ['Paris', 'Berlin', 'Rome', 'Madrid'],
+        options: JSON.stringify(['Paris', 'Berlin', 'Rome', 'Madrid']),
         type: 'Select',
         categoryId: 'Geography',
         correctAnswer: JSON.stringify({ value: 'Paris' }),
@@ -139,7 +139,7 @@ async function main() {
       {
         id: '3',
         title: 'Which of these rivers is the longest?',
-        options: ['Amazon', 'Nile', 'Yangtze', 'Mississippi'],
+        options: JSON.stringify(['Amazon', 'Nile', 'Yangtze', 'Mississippi']),
         type: 'Select',
         categoryId: 'Geography',
         correctAnswer: JSON.stringify({ value: 'Nile' }),
@@ -168,7 +168,12 @@ async function main() {
       {
         id: '6',
         title: 'Who won the Battle of Waterloo?',
-        options: ['Napoleon', 'Wellington', 'Bismarck', 'Nelson'],
+        options: JSON.stringify([
+          'Napoleon',
+          'Wellington',
+          'Bismarck',
+          'Nelson',
+        ]),
         type: 'Select',
         categoryId: 'History',
         correctAnswer: JSON.stringify({ value: 'Wellington' }),
@@ -214,12 +219,12 @@ async function main() {
       {
         id: '10',
         title: 'Select the correct period of the Renaissance:',
-        options: [
+        options: JSON.stringify([
           '14th-17th Century',
           '18th-19th Century',
           '20th Century',
           '11th-13th Century',
-        ],
+        ]),
         type: 'Select',
         categoryId: 'History',
         correctAnswer: JSON.stringify({ value: '14th-17th Century' }),
@@ -228,7 +233,7 @@ async function main() {
       {
         id: '11',
         title: 'Which country hosted the 2016 Summer Olympics?',
-        options: ['Brazil', 'China', 'USA', 'Australia'],
+        options: JSON.stringify(['Brazil', 'China', 'USA', 'Australia']),
         type: 'Select',
         categoryId: 'Sports',
         correctAnswer: JSON.stringify({ value: 'Brazil' }),
@@ -288,7 +293,12 @@ async function main() {
       {
         id: '16',
         title: 'Who was the first president of the USA?',
-        options: ['Washington', 'Lincoln', 'Jefferson', 'Roosevelt'],
+        options: JSON.stringify([
+          'Washington',
+          'Lincoln',
+          'Jefferson',
+          'Roosevelt',
+        ]),
         type: 'Select',
         categoryId: 'Politics',
         correctAnswer: JSON.stringify({ value: 'Washington' }),
@@ -346,7 +356,12 @@ async function main() {
         id: '20',
         title:
           'Which political ideology emphasizes individual rights and free market economy?',
-        options: ['Liberalism', 'Socialism', 'Communism', 'Fascism'],
+        options: JSON.stringify([
+          'Liberalism',
+          'Socialism',
+          'Communism',
+          'Fascism',
+        ]),
         type: 'Select',
         categoryId: 'Politics',
         correctAnswer: JSON.stringify({ value: 'Liberalism' }),

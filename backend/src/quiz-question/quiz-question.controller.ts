@@ -3,10 +3,8 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import { QuizQuestionService } from './quiz-question.service';
@@ -31,7 +29,7 @@ export class QuizQuestionController {
   @Get(':id')
   @UseGuards(UserAuthGuard)
   async findOne(@Param('id') id: string) {
-    const quizQuestion = await this.quizQuestionService.findOne(id);
+    const quizQuestion = await this.quizQuestionService.findQuizQuestions(id);
 
     return quizQuestion;
   }

@@ -35,16 +35,10 @@ export class QuizQuestionService {
     return newQuizQuestion;
   }
 
-  async findOne(id: string) {
-    const quizQuestion = await this.prisma.quizQuestion.findUnique({
-      where: { id },
+  async findQuizQuestions(id: string) {
+    const quizQuestion = await this.prisma.quizQuestion.findMany({
+      where: { quizId: id },
       include: {
-        quiz: {
-          select: {
-            id: true,
-            title: true,
-          },
-        },
         question: {
           select: {
             id: true,
@@ -57,7 +51,7 @@ export class QuizQuestionService {
       },
     });
 
-    if (!quizQuestion) throw new NotFoundException('Quiz question not found');
+    if (!quizQuestion) throw new NotFoundException('Quiz questions not found');
 
     return quizQuestion;
   }
