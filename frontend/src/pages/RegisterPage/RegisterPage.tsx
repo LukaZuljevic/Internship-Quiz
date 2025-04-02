@@ -3,6 +3,9 @@ import { RegistrationData } from "../../types/RegistrationData";
 import { FormInput } from "../../components/FormInput";
 import { useRegister } from "../../hooks/useRegister";
 import toast from "react-hot-toast";
+import c from "./RegisterPage.module.css";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../router/routes";
 
 export const RegisterPage = () => {
   const [registrationData, setRegistrationData] = useState<RegistrationData>({
@@ -12,7 +15,9 @@ export const RegisterPage = () => {
     password: "",
     repeatedPassword: "",
   });
+
   const { userRegistration } = useRegister(registrationData);
+  const navigate = useNavigate();
 
   const validateForm = (): boolean => {
     let errorString = "";
@@ -38,9 +43,8 @@ export const RegisterPage = () => {
       errorString += "Password must be at least 6 chars long";
     }
 
-    if (registrationData.password !== registrationData.repeatedPassword) {
+    if (registrationData.password !== registrationData.repeatedPassword)
       errorString += "Passwords don't match";
-    }
 
     if (errorString) toast.error(errorString);
 
@@ -51,7 +55,9 @@ export const RegisterPage = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      userRegistration();
+      await userRegistration();
+      toast.success("Registration successful!");
+      navigate(ROUTES.QUIZZES_PAGE);
 
       setRegistrationData({
         firstName: "",
@@ -71,8 +77,8 @@ export const RegisterPage = () => {
   };
 
   return (
-    <div className="registration-container">
-      <form onSubmit={handleFormSubmit}>
+    <div className={c.registrationContainer}>
+      <form className={c.registrationForm} onSubmit={handleFormSubmit}>
         <FormInput
           type="text"
           placeholder="Enter your first name"
@@ -116,6 +122,10 @@ export const RegisterPage = () => {
         />
 
         <button type="submit">Register</button>
+
+        <a href={ROUTES.LOGIN}>
+          Already have an account? <span>Login here</span>
+        </a>
       </form>
     </div>
   );

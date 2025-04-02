@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'src/prisma.service';
 import { RegisterDto } from './dto/register.dto';
@@ -18,7 +22,10 @@ export class UserService {
       where: { email: RegisterDto.email },
     });
 
-    if (oldUser) throw new NotFoundException('User already exists');
+    console.log(oldUser);
+
+    if (oldUser)
+      throw new BadRequestException('User with that email already exists');
 
     const hashedPassword = await hash(RegisterDto.password, 10);
 
@@ -47,7 +54,7 @@ export class UserService {
       where: { email: LoginDto.email },
     });
 
-    if (!oldUser) throw new NotFoundException('User not found');
+    if (!oldUser) throw new NotFoundException('User with that email not found');
 
     const passwordMatch = await compare(LoginDto.password, oldUser.password);
 

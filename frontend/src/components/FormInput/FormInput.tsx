@@ -1,3 +1,5 @@
+import c from "./FormInput.module.css";
+
 type FormInputProps = {
   type: string;
   placeholder: string;
@@ -15,6 +17,7 @@ export const FormInput = ({
 }: FormInputProps) => {
   return (
     <input
+      className={c.formInput}
       type={type}
       placeholder={placeholder}
       name={name}

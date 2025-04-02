@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { registerUser } from "../services/RegisterApi";
 import { RegistrationData } from "../types/RegistrationData";
 
@@ -10,9 +11,16 @@ export const useRegister = (
 ): UseRegisterReturn => {
   const userRegistration = async () => {
     try {
-      await registerUser(registrationData);
+      const userData = await registerUser(registrationData);
+
+      localStorage.setItem("jwt", JSON.stringify(userData.token));
     } catch (error) {
-      console.log(`${error}`);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Registration failed. Try again.";
+      toast.error(errorMessage);
+      throw error;
     }
   };
 

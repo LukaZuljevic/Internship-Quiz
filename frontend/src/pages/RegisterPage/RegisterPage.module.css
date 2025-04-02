@@ -1,0 +1,17 @@
+.registrationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+}
+
+.registrationForm {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  border-radius: 8px;
+  background-color: rgba(240, 235, 235, 0.685);
+}
