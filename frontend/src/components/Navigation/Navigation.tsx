@@ -20,8 +20,6 @@ export const Navigation = () => {
         state: search,
       }
     );
-
-    setSearch("");
   };
 
   return (

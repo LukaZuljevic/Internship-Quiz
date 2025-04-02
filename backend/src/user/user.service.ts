@@ -42,6 +42,7 @@ export class UserService {
       id: registerUser.id,
       email: registerUser.email,
       role: registerUser.role,
+      totalPoints: registerUser.totalPoints,
     };
 
     return {
@@ -64,6 +65,7 @@ export class UserService {
       email: oldUser.email,
       id: oldUser.id,
       role: oldUser.role,
+      totalPoints: oldUser.totalPoints,
     };
 
     return {
@@ -88,14 +90,10 @@ export class UserService {
     return allUsers;
   }
 
-  async findOne(email: string) {
+  async getUserPoints(email: string) {
     const user = await this.prisma.user.findUnique({
       where: { email },
       select: {
-        firstName: true,
-        lastName: true,
-        email: true,
-        role: true,
         totalPoints: true,
       },
     });
@@ -105,12 +103,4 @@ export class UserService {
 
     return user;
   }
-
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
 }

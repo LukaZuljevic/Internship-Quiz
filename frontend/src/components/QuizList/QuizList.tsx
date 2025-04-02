@@ -10,7 +10,7 @@ export const QuizList = ({ quizzes }: QuizListProps) => {
   return (
     <ul className={c.quizList}>
       {quizzes.map((quiz: Quiz) => (
-        <QuizCard quizInfo={quiz} />
+        <QuizCard key={quiz.id} quizInfo={quiz} />
       ))}
     </ul>
   );

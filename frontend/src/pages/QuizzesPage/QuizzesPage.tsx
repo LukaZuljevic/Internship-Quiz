@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { Quiz } from "../../types/Quiz";
 import { useSearchParams } from "react-router-dom";
 import { QuizList } from "../../components/QuizList";
-import { useFetchAllCategories } from "../../hooks/useFetchAllCategories";
-import { Category } from "../../types/Category";
+import { CategoryFilter } from "../../components/CategoryFilter";
+import { useFetchUserPoints } from "../../hooks/useFetchUserPoints";
 
 export const QuizzesPage = () => {
   const [searchParams] = useSearchParams();
@@ -17,16 +17,16 @@ export const QuizzesPage = () => {
     search,
   });
 
-  const [categories, setCategories] = useState<Category[]>([]);
-  const { fetchAllCategoriesData } = useFetchAllCategories(setCategories);
-
   const [currentCategory, setCurrentCategory] = useState<string>("");
   const [filteredQuizzes, setFilteredQuizzes] = useState<Quiz[]>([]);
+
+  const [totalPoints, setTotalPoints] = useState<number>();
+  const { fetchUserPointsData } = useFetchUserPoints(setTotalPoints);
 
   useEffect(() => {
     const fetchData = async () => {
       await fetchQuizzesBySearchData(search);
-      await fetchAllCategoriesData();
+      await fetchUserPointsData();
     };
 
     fetchData();
@@ -44,17 +44,11 @@ export const QuizzesPage = () => {
 
   return (
     <div>
-      <select
-        value={currentCategory}
-        onChange={(e) => setCurrentCategory(e.target.value)}
-      >
-        <option value="">Any category</option>
-        {categories.map((category: Category) => (
-          <option key={category.imageUrl} value={category.title}>
-            {category.title}
-          </option>
-        ))}
-      </select>
+      <CategoryFilter
+        currentCategory={currentCategory}
+        setCurrentCategory={setCurrentCategory}
+      />
+      <h3>YOUR POINTS: {totalPoints}</h3>
 
       {filteredQuizzes.length > 0 ? (
         <QuizList quizzes={filteredQuizzes} />
