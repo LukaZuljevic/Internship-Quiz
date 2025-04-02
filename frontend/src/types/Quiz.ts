@@ -1,8 +1,7 @@
+import { Category } from "./Category";
+
 export type Quiz = {
-  category: {
-    title: string;
-    imageUrl: string;
-  };
+  category: Category;
   id: string;
   title: string;
 };

@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { Quiz } from "../../types/Quiz";
 import { useSearchParams } from "react-router-dom";
 import { QuizList } from "../../components/QuizList";
+import { useFetchAllCategories } from "../../hooks/useFetchAllCategories";
+import { Category } from "../../types/Category";
 
 export const QuizzesPage = () => {
   const [searchParams] = useSearchParams();
@@ -15,14 +17,47 @@ export const QuizzesPage = () => {
     search,
   });
 
+  const [categories, setCategories] = useState<Category[]>([]);
+  const { fetchAllCategoriesData } = useFetchAllCategories(setCategories);
+
+  const [currentCategory, setCurrentCategory] = useState<string>("");
+  const [filteredQuizzes, setFilteredQuizzes] = useState<Quiz[]>([]);
+
   useEffect(() => {
-    fetchQuizzesBySearchData(search);
+    const fetchData = async () => {
+      await fetchQuizzesBySearchData(search);
+      await fetchAllCategoriesData();
+    };
+
+    fetchData();
   }, [search]);
+
+  useEffect(() => {
+    setFilteredQuizzes(
+      currentCategory
+        ? quizzes.filter((quiz) =>
+            quiz.category.title.includes(currentCategory)
+          )
+        : quizzes
+    );
+  }, [currentCategory, quizzes]);
 
   return (
     <div>
-      {quizzes.length > 0 ? (
-        <QuizList quizzes={quizzes} />
+      <select
+        value={currentCategory}
+        onChange={(e) => setCurrentCategory(e.target.value)}
+      >
+        <option value="">Any category</option>
+        {categories.map((category: Category) => (
+          <option key={category.imageUrl} value={category.title}>
+            {category.title}
+          </option>
+        ))}
+      </select>
+
+      {filteredQuizzes.length > 0 ? (
+        <QuizList quizzes={filteredQuizzes} />
       ) : (
         <p className={c.noQuizFound}>
           No quizzes found. Search something different!

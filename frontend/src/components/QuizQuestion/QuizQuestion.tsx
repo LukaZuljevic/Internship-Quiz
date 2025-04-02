@@ -2,6 +2,7 @@ import { Question } from "../../types/Question";
 
 type QuizQuestionProps = {
   question: Question;
+  onAnswerChange: (answer: any) => void;
 };
 
 export const QuizQuestion = ({ question }: QuizQuestionProps) => {
