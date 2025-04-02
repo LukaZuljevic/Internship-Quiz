@@ -18,6 +18,7 @@ export const QuizzesPage = () => {
     fetchQuizzesBySearchData(search);
   }, [search]);
 
+
   return (
     <div>
       <h1>Quizzes Page</h1>

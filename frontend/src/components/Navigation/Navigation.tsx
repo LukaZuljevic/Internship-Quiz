@@ -1,11 +1,10 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../router/routes";
 import c from "./Navigation.module.css";
 
 export const Navigation = () => {
-  const [search, setSearch] = useState<String>("");
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [search, setSearch] = useState<string>("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -23,18 +22,21 @@ export const Navigation = () => {
     );
 
     setSearch("");
-    if (inputRef.current) inputRef.current.value = "";
   };
 
   return (
-    <div id="navigation">
+    <div id={c.navigation}>
       <input
-        ref={inputRef}
         type="text"
         placeholder="Enter quiz name"
+        value={search}
         onChange={(e) => handleInputChange(e)}
+        className={c.searchBar}
       />
-      <button onClick={handleButtonClick}>Search</button>
+
+      <button onClick={handleButtonClick} className={c.searchButton}>
+        Search
+      </button>
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import { QUIZ_API_PATH } from "../constants";
 
 export const fetchQuizzesBySearch = async (search: string) => {
-  const url = `${QUIZ_API_PATH}/search/${search}`;
-  const token = localStorage.getItem("jwt");
+  const url = search ? `${QUIZ_API_PATH}/search/${search}` : `${QUIZ_API_PATH}`;
+  const token = JSON.parse(localStorage.getItem("jwt") || "null");
 
   const response = await fetch(url, {
     method: "GET",
@@ -12,12 +12,9 @@ export const fetchQuizzesBySearch = async (search: string) => {
     },
   });
 
-  if (!response.ok)
-    throw new Error(`Error fetching quizzes: ${response.statusText}`);
-
   const data = await response.json();
 
-  console.log(data);
+  if (!response.ok) throw new Error(data.message || "Fetching failed.");
 
   return data;
 };

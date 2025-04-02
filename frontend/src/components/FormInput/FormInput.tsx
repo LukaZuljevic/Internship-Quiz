@@ -1,6 +1,8 @@
+import { RefObject } from "react";
 import c from "./FormInput.module.css";
 
 type FormInputProps = {
+  ref?: RefObject<HTMLInputElement> | null;
   type: string;
   placeholder: string;
   name: string;
@@ -9,6 +11,7 @@ type FormInputProps = {
 };
 
 export const FormInput = ({
+  ref,
   type,
   placeholder,
   name,
@@ -17,6 +20,7 @@ export const FormInput = ({
 }: FormInputProps) => {
   return (
     <input
+      ref={ref}
       className={c.formInput}
       type={type}
       placeholder={placeholder}

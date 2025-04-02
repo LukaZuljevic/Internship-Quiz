@@ -67,8 +67,6 @@ export class QuizService {
   }
 
   async findByTitle(title: string) {
-    if (!title) return this.findAll();
-
     const quizesWithTitle = await this.prisma.quiz.findMany({
       where: {
         title: {
