@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Category } from "../../types/Category";
 import { useFetchAllCategories } from "../../hooks/useFetchAllCategories";
+import c from "./CategoryFilter.module.css";
 
 interface CategoryFilterProps {
   currentCategory: string;
@@ -26,6 +27,7 @@ export const CategoryFilter = ({
     <select
       value={currentCategory}
       onChange={(e) => setCurrentCategory(e.target.value)}
+      className={c.categoryFilter}
     >
       <option value="">Any category</option>
       {categories.map((category: Category) => (

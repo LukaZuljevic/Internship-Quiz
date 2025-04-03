@@ -43,13 +43,14 @@ export const QuizzesPage = () => {
   }, [currentCategory, quizzes]);
 
   return (
-    <div>
-      <CategoryFilter
-        currentCategory={currentCategory}
-        setCurrentCategory={setCurrentCategory}
-      />
-      <h3>YOUR POINTS: {totalPoints}</h3>
-
+    <div id={c.quizzesPage}>
+      <div className={c.filterAndPoints}>
+        <CategoryFilter
+          currentCategory={currentCategory}
+          setCurrentCategory={setCurrentCategory}
+        />
+        <h3>TOTAL POINTS: {totalPoints}</h3>
+      </div>
       {filteredQuizzes.length > 0 ? (
         <QuizList quizzes={filteredQuizzes} />
       ) : (
