@@ -28,8 +28,8 @@ export const LoginPage = () => {
 
     if (!loginData.password.trim()) {
       errorString += "Password is requred";
-    } else if (loginData.password.length < 6) {
-      errorString += "Password must be at least 6 chars long";
+    } else if (loginData.password.length < 4) {
+      errorString += "Password must be at least 4 chars long";
     }
 
     if (errorString) toast.error(errorString);

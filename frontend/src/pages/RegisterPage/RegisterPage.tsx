@@ -39,8 +39,8 @@ export const RegisterPage = () => {
 
     if (!registrationData.password.trim()) {
       errorString += "Password is requred";
-    } else if (registrationData.password.length < 6) {
-      errorString += "Password must be at least 6 chars long";
+    } else if (registrationData.password.length < 4) {
+      errorString += "Password must be at least 4 chars long";
     }
 
     if (registrationData.password !== registrationData.repeatedPassword)

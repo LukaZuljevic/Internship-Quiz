@@ -6,8 +6,12 @@ import { useSearchParams } from "react-router-dom";
 import { QuizList } from "../../components/QuizList";
 import { CategoryFilter } from "../../components/CategoryFilter";
 import { useFetchUserPoints } from "../../hooks/useFetchUserPoints";
+import { getDataFromToken } from "../../utils/getUserDataFromJwt";
+import { AddNewCategory } from "../../components/AddNewCategory";
 
 export const QuizzesPage = () => {
+  const role = getDataFromToken("role");
+
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
 
@@ -45,6 +49,7 @@ export const QuizzesPage = () => {
   return (
     <div id={c.quizzesPage}>
       <div className={c.filterAndPoints}>
+        {role === "Admin" && <AddNewCategory />}
         <CategoryFilter
           currentCategory={currentCategory}
           setCurrentCategory={setCurrentCategory}
