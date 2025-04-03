@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { UserAuthGuard } from './user-auth.guard';
+import { UpdatePointsDto } from './dto/update-points.dto';
 
 @Controller('user')
 export class UserController {
@@ -16,6 +17,12 @@ export class UserController {
   @Post('register')
   register(@Body() RegisterDto: CreateUserDto) {
     return this.userService.register(RegisterDto);
+  }
+
+  @Post('points')
+  @UseGuards(UserAuthGuard)
+  postNewPoints(@Body() updatePointsDto: UpdatePointsDto) {
+    return this.userService.updateUserPoints(updatePointsDto);
   }
 
   @Get()

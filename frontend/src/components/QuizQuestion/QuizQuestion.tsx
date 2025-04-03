@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Question, QuestionType, Options } from "../../types/Question";
 import c from "./QuizQuestion.module.css";
+import { Answer } from "../../types/Answer";
 
 type QuizQuestionProps = {
   question: Question;
-  onAnswerChange: (answer: any) => void;
-  currentAnswer?: any;
+  onAnswerChange: (answer: Answer) => void;
+  currentAnswer?: Answer;
   isCorrect: boolean | undefined;
 };
 
@@ -21,7 +22,7 @@ export const QuizQuestion = ({
       : question.options
     : null;
 
-  const [answer, setAnswer] = useState<any>(
+  const [answer, setAnswer] = useState<Answer>(
     currentAnswer || getDefaultAnswer(question.type)
   );
 
@@ -65,13 +66,15 @@ export const QuizQuestion = ({
   };
 
   const handleMatchChange = (pendingAnswer: string, option: string) => {
-    setAnswer((prev: Options) => ({
-      ...prev,
+    setAnswer((prev) => ({
+      ...(typeof prev === "object" && !Array.isArray(prev) ? prev : {}),
       [option]: pendingAnswer,
     }));
   };
 
   const handleOrderChangeClick = (direction: "up" | "down", index: number) => {
+    if (!Array.isArray(answer)) return;
+
     if (
       (direction === "up" && index === 0) ||
       (direction === "down" && index === answer.length - 1)
@@ -98,7 +101,7 @@ export const QuizQuestion = ({
     return (
       <input
         type="text"
-        value={answer}
+        value={typeof answer === "string" ? answer : ""}
         placeholder="Enter you answer"
         onChange={(e) => handleValueChange(e.target.value)}
         disabled={isCorrect !== undefined}
@@ -111,7 +114,7 @@ export const QuizQuestion = ({
     return (
       <input
         type="number"
-        value={answer}
+        value={typeof answer === "string" ? answer : ""}
         onChange={(e) => handleValueChange(e.target.value)}
         disabled={isCorrect !== undefined}
         className={c.numberInput}
@@ -149,7 +152,11 @@ export const QuizQuestion = ({
           <div key={index} className={c.matchQuestion}>
             <p className={c.matchLabel}>{option}</p>
             <select
-              value={answer[option]}
+              value={
+                typeof answer === "object" && !Array.isArray(answer)
+                  ? answer[option] ?? ""
+                  : ""
+              }
               onChange={(e) => handleMatchChange(e.target.value, option)}
               disabled={isCorrect !== undefined}
               className={c.matchInput}
@@ -170,25 +177,26 @@ export const QuizQuestion = ({
   const renderOrderQuestion = () => {
     return (
       <div className={c.orderQuestion}>
-        {answer.map((option: string, index: number) => (
-          <div key={index} className={c.orderItem}>
-            <button
-              onClick={() => handleOrderChangeClick("up", index)}
-              disabled={isCorrect !== undefined}
-              className={c.orderButton}
-            >
-              &#8593;
-            </button>
-            <p>{option}</p>
-            <button
-              onClick={() => handleOrderChangeClick("down", index)}
-              disabled={isCorrect !== undefined}
-              className={c.orderButton}
-            >
-              &#8595;
-            </button>
-          </div>
-        ))}
+        {Array.isArray(answer) &&
+          answer.map((option: string, index: number) => (
+            <div key={index} className={c.orderItem}>
+              <button
+                onClick={() => handleOrderChangeClick("up", index)}
+                disabled={isCorrect !== undefined}
+                className={c.orderButton}
+              >
+                &#8593;
+              </button>
+              <p>{option}</p>
+              <button
+                onClick={() => handleOrderChangeClick("down", index)}
+                disabled={isCorrect !== undefined}
+                className={c.orderButton}
+              >
+                &#8595;
+              </button>
+            </div>
+          ))}
       </div>
     );
   };

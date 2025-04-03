@@ -4,11 +4,22 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class UserQuizAnswersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+  ) {}
 
   async create(createUserQuizAnswerDto: CreateUserQuizAnswerDto) {
     const newUserQuizAnswers = await this.prisma.userQuizAnswers.create({
       data: createUserQuizAnswerDto,
+    });
+
+    await this.prisma.user.update({
+      where: { id: createUserQuizAnswerDto.userId },
+      data: {
+        totalPoints: {
+          increment: createUserQuizAnswerDto.points,
+        },
+      },
     });
 
     return newUserQuizAnswers;
@@ -41,8 +52,7 @@ export class UserQuizAnswersService {
       },
     });
 
-    if (!answer)
-      throw new NotFoundException('Answers for that quiz by not found');
+    if (!answer) throw new NotFoundException('Answers for that quiz not found');
 
     return answer;
   }

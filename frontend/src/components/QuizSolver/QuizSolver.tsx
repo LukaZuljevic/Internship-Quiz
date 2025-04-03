@@ -1,19 +1,25 @@
 import {
-  Question,
   QuestionType,
   QuizQuestion as QuizQuestionType,
 } from "../../types/Question";
 import c from "./QuizSolver.module.css";
 import { QuizQuestion } from "../QuizQuestion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Answer } from "../../types/Answer";
+import { useCreateUserQuizAttempt } from "../../hooks/useCreateUserQuizAttempt";
+import { QuizAttempt } from "../../types/QuizAttempt";
+import { getDataFromToken } from "../../utils/getUserDataFromJwt";
 
 type QuizSolverProps = {
   quizQuestions: QuizQuestionType[];
 };
 
 export const QuizSolver = ({ quizQuestions }: QuizSolverProps) => {
-  const [answers, setAnswers] = useState<Record<string, any>>({});
+  const [answers, setAnswers] = useState<Record<string, Answer>>({});
   const [result, setResult] = useState<Record<string, boolean>>({});
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
+
+  const { postUserQuizAttemptData } = useCreateUserQuizAttempt();
 
   const correctAnswers = quizQuestions.map((question: QuizQuestionType) => {
     return {
@@ -26,7 +32,7 @@ export const QuizSolver = ({ quizQuestions }: QuizSolverProps) => {
     };
   });
 
-  const handleAnswerChange = (questionId: string, answer: any) => {
+  const handleAnswerChange = (questionId: string, answer: Answer) => {
     setAnswers((prev) => ({
       ...prev,
       [questionId]: answer,
@@ -49,29 +55,60 @@ export const QuizSolver = ({ quizQuestions }: QuizSolverProps) => {
     });
 
     setResult(newResults);
+    setIsSubmitDisabled(true);
   };
 
-  const checkAnswer = (answer: any, userAnswer: any, type: QuestionType) => {
+  useEffect(() => {
+    let calculatedScore = 0;
+    for (const key in result) {
+      if (result[key]) calculatedScore++;
+    }
+
+    const userId = getDataFromToken("id");
+
+    const quizAttempRequest: QuizAttempt = {
+      quizId: quizQuestions[0].quizId,
+      userId: userId,
+      answers: answers,
+      points: calculatedScore,
+    };
+
+    postUserQuizAttemptData({ request: quizAttempRequest });
+  }, [result]);
+
+  const checkAnswer = (answer: any, userAnswer: Answer, type: QuestionType) => {
     switch (type) {
       case "Field":
       case "Select":
         return (
+          typeof userAnswer === "string" &&
           answer.correctAnswer.value.toLowerCase() ===
-          userAnswer.toLowerCase().trim()
+            userAnswer.toLowerCase().trim()
         );
+
       case "Number":
-        return parseInt(answer.correctAnswer.value) === parseInt(userAnswer);
+        return (
+          typeof userAnswer === "string" &&
+          parseInt(answer.correctAnswer.value) === parseInt(userAnswer)
+        );
+
       case "Match":
+        if (typeof userAnswer !== "object" || Array.isArray(userAnswer))
+          return false;
+
         for (const key in answer.correctAnswer) {
-          if (answer.correctAnswer[key] != userAnswer[key]) {
+          if (answer.correctAnswer[key] !== userAnswer[key]) {
             return false;
           }
         }
         return true;
+
       case "Order":
         return (
+          Array.isArray(userAnswer) &&
           JSON.stringify(userAnswer) === JSON.stringify(answer.correctAnswer)
         );
+
       default:
         return false;
     }
@@ -83,7 +120,7 @@ export const QuizSolver = ({ quizQuestions }: QuizSolverProps) => {
         <div key={quizQuestion.id}>
           <QuizQuestion
             question={quizQuestion.question}
-            onAnswerChange={(answer) =>
+            onAnswerChange={(answer: Answer) =>
               handleAnswerChange(quizQuestion.questionId, answer)
             }
             currentAnswer={answers[quizQuestion.id]}
@@ -92,7 +129,11 @@ export const QuizSolver = ({ quizQuestions }: QuizSolverProps) => {
         </div>
       ))}
 
-      <button onClick={handleSubmitClick} className={c.submitButton}>
+      <button
+        onClick={handleSubmitClick}
+        className={c.submitButton}
+        disabled={isSubmitDisabled}
+      >
         Submit Quiz
       </button>
     </div>

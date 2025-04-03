@@ -1,11 +1,10 @@
 import { USER_PATH } from "../constants";
-import { jwtDecode } from "jwt-decode";
+import { getDataFromToken } from "../utils/getUserDataFromJwt";
 
 export const fetchUserPoints = async () => {
   const token = JSON.parse(localStorage.getItem("jwt") || "null");
 
-  const decodedToken = jwtDecode(token);
-  const userEmail = decodedToken.email || "";
+  const userEmail = getDataFromToken("email");
 
   const url = `${USER_PATH}/points/${userEmail}`;
 

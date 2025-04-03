@@ -9,6 +9,7 @@ import { RegisterDto } from './dto/register.dto';
 import { hash, compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
+import { UpdatePointsDto } from './dto/update-points.dto';
 
 @Injectable()
 export class UserService {
@@ -102,5 +103,29 @@ export class UserService {
       throw new NotFoundException(`User with email ${email} not found`);
 
     return user;
+  }
+
+  async updateUserPoints(updatePointsDto: UpdatePointsDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: updatePointsDto.userId },
+      select: {
+        totalPoints: true,
+      },
+    });
+
+    if (!user) throw new NotFoundException(`User not found`);
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id: updatePointsDto.userId },
+      data: {
+        totalPoints: user.totalPoints + updatePointsDto.points,
+      },
+      select: {
+        id: true,
+        totalPoints: true,
+      },
+    });
+
+    return updatedUser;
   }
 }
