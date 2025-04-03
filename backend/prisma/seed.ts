@@ -155,14 +155,20 @@ async function main() {
       {
         id: '5',
         title: 'Order these mountain ranges from shortest to tallest:',
-        options: JSON.stringify({
-          array: ['Andes', 'Himalayas', 'Alps', 'Rocky Mountains'],
-        }),
+        options: JSON.stringify([
+          'Andes',
+          'Himalayas',
+          'Alps',
+          'Rocky Mountains',
+        ]),
         type: 'Order',
         categoryId: 'Geography',
-        correctAnswer: JSON.stringify({
-          order: ['Alps', 'Andes', 'Rocky Mountains', 'Himalayas'],
-        }),
+        correctAnswer: JSON.stringify([
+          'Alps',
+          'Andes',
+          'Rocky Mountains',
+          'Himalayas',
+        ]),
       },
 
       {
@@ -207,14 +213,15 @@ async function main() {
       {
         id: '9',
         title: 'Order these ancient civilizations from oldest to youngest:',
-        options: JSON.stringify({
-          array: ['Egyptian', 'Greek', 'Roman', 'Mesopotamian'],
-        }),
+        options: JSON.stringify(['Egyptian', 'Greek', 'Roman', 'Mesopotamian']),
         type: 'Order',
         categoryId: 'History',
-        correctAnswer: JSON.stringify({
-          order: ['Mesopotamian', 'Egyptian', 'Greek', 'Roman'],
-        }),
+        correctAnswer: JSON.stringify([
+          'Mesopotamian',
+          'Egyptian',
+          'Greek',
+          'Roman',
+        ]),
       },
       {
         id: '10',
@@ -263,24 +270,20 @@ async function main() {
       {
         id: '14',
         title: 'Order these Olympic sports by their typical event duration:',
-        options: JSON.stringify({
-          array: [
-            'Marathon',
-            '100m Sprint',
-            'Football Match',
-            'Gymnastics Routine',
-          ],
-        }),
+        options: JSON.stringify([
+          'Marathon',
+          '100m Sprint',
+          'Football Match',
+          'Gymnastics Routine',
+        ]),
         type: 'Order',
         categoryId: 'Sports',
-        correctAnswer: JSON.stringify({
-          order: [
-            '100m Sprint',
-            'Gymnastics Routine',
-            'Football Match',
-            'Marathon',
-          ],
-        }),
+        correctAnswer: JSON.stringify([
+          '100m Sprint',
+          'Gymnastics Routine',
+          'Football Match',
+          'Marathon',
+        ]),
       },
       {
         id: '15',
@@ -333,24 +336,20 @@ async function main() {
         id: '19',
         title:
           'Order these political documents by their historical significance:',
-        options: JSON.stringify({
-          array: [
-            'Magna Carta',
-            'US Constitution',
-            'UN Charter',
-            'Declaration of Independence',
-          ],
-        }),
+        options: JSON.stringify([
+          'Magna Carta',
+          'US Constitution',
+          'UN Charter',
+          'Declaration of Independence',
+        ]),
         type: 'Order',
         categoryId: 'Politics',
-        correctAnswer: JSON.stringify({
-          order: [
-            'Magna Carta',
-            'Declaration of Independence',
-            'US Constitution',
-            'UN Charter',
-          ],
-        }),
+        correctAnswer: JSON.stringify([
+          'Magna Carta',
+          'Declaration of Independence',
+          'US Constitution',
+          'UN Charter',
+        ]),
       },
       {
         id: '20',

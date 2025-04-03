@@ -1,0 +1,89 @@
+.textInput,
+.numberInput {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.textInput {
+  width: 400px;
+}
+
+.numberInput {
+  width: 100px;
+}
+
+.radioQuestion {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 16px;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+}
+
+.matchQuestion {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.matchInput {
+  width: 200px;
+  padding: 5px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.orderQuestion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.orderItem {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.orderButton {
+  background-color: rgb(34, 141, 230);
+  color: white;
+  cursor: pointer;
+  padding: 5px 3px;
+  border: none;
+  border-radius: 8px;
+}
+
+.questionTitle {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.radioLabel {
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.matchLabel {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.correct {
+  color: green;
+  font-size: 20px;
+}
+
+.incorrect {
+  color: red;
+  font-size: 20px;
+}
