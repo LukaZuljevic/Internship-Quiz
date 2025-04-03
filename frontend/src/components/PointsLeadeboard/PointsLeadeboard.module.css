@@ -1,0 +1,57 @@
+.pointsLeaderboardContainer {
+  position: relative;
+}
+
+.leaderboardButton {
+  background-color: rgb(35, 142, 255);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+}
+
+.leaderboardCard {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 300px;
+  text-align: center;
+}
+
+.leaderboardCard h2 {
+  margin-bottom: 10px;
+}
+
+.leaderboardCard ul {
+  list-style: none;
+  justify-self: center;
+}
+
+.leaderboardCard li {
+  padding: 5px 0;
+  font-size: 18px;
+  justify-self: left;
+}
+
+.closeButton {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-top: 10px;
+}

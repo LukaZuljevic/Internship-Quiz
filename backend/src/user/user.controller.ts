@@ -27,8 +27,8 @@ export class UserController {
 
   @Get()
   @UseGuards(UserAuthGuard)
-  findAll() {
-    return this.userService.findAll();
+  getAllUserPoints() {
+    return this.userService.findAllUserPoints();
   }
 
   @Get('points/:email')

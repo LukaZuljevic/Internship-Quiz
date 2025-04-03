@@ -1,6 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useCreateNewCategory } from "../../hooks/useCreateNewCategory";
+import c from "./AddNewCategory.module.css";
 
 export const AddNewCategory = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -32,7 +33,7 @@ export const AddNewCategory = () => {
   return (
     <>
       {isClicked ? (
-        <div>
+        <div className={c.addNewCategoryForm}>
           <input
             type="text"
             value={newTitle}
@@ -49,7 +50,12 @@ export const AddNewCategory = () => {
           <button onClick={() => setIsClicked(false)}>Go back</button>
         </div>
       ) : (
-        <button onClick={() => setIsClicked(true)}>Add new category</button>
+        <button
+          onClick={() => setIsClicked(true)}
+          className={c.addNewCategoryButton}
+        >
+          Add new category
+        </button>
       )}
     </>
   );

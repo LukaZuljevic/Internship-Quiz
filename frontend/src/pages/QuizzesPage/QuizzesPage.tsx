@@ -8,6 +8,7 @@ import { CategoryFilter } from "../../components/CategoryFilter";
 import { useFetchUserPoints } from "../../hooks/useFetchUserPoints";
 import { getDataFromToken } from "../../utils/getUserDataFromJwt";
 import { AddNewCategory } from "../../components/AddNewCategory";
+import { PointsLeaderboard } from "../../components/PointsLeadeboard";
 
 export const QuizzesPage = () => {
   const role = getDataFromToken("role");
@@ -49,13 +50,19 @@ export const QuizzesPage = () => {
   return (
     <div id={c.quizzesPage}>
       <div className={c.filterAndPoints}>
-        {role === "Admin" && <AddNewCategory />}
+        {role === "Admin" && (
+          <div className={c.adminButtons}>
+            <PointsLeaderboard />
+            <AddNewCategory />
+          </div>
+        )}
         <CategoryFilter
           currentCategory={currentCategory}
           setCurrentCategory={setCurrentCategory}
         />
         <h3>TOTAL POINTS: {totalPoints}</h3>
       </div>
+
       {filteredQuizzes.length > 0 ? (
         <QuizList quizzes={filteredQuizzes} />
       ) : (
