@@ -1,5 +1,5 @@
 import c from "../RegisterPage/RegisterPage.module.css";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ROUTES } from "../../router/routes";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -9,8 +9,7 @@ import { useLogin } from "../../hooks/useLogin";
 import { UserContext } from "../../contexts/UserContext";
 
 export const LoginPage = () => {
-  const { isLoading } = useContext(UserContext);
-
+  const { refreshUserState } = useContext(UserContext);
   const [loginData, setLoginData] = useState<LoginData>({
     email: "",
     password: "",
@@ -44,10 +43,14 @@ export const LoginPage = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      await userLogin();
-      toast.success("Login successful!");
+      const jwt = await userLogin();
 
-      while (isLoading) return <h1>Loading...</h1>;
+      if (!jwt) {
+        console.log("error with jwt token");
+        return;
+      }
+
+      refreshUserState();
 
       navigate(ROUTES.QUIZZES_PAGE);
 

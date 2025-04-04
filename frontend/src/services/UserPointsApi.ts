@@ -1,12 +1,9 @@
 import { USER_PATH } from "../constants";
-import { getDataFromToken } from "../utils/getUserDataFromJwt";
 
-export const fetchUserPoints = async () => {
+export const fetchUserPoints = async (email: string) => {
   const token = JSON.parse(localStorage.getItem("jwt") || "null");
 
-  const userEmail = getDataFromToken("email");
-
-  const url = `${USER_PATH}/points/${userEmail}`;
+  const url = `${USER_PATH}/points/${email}`;
 
   const response = await fetch(url, {
     method: "GET",

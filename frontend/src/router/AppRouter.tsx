@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { RegisterPage } from "../pages/RegisterPage";
 import { LoginPage } from "../pages/LoginPage";
 import { PrivateRoute } from "./PrivateRoute";
+import { CreateQuizPage } from "../pages/CreateQuizPage";
 
 export const AppRouter = () => {
   return (
@@ -20,6 +21,10 @@ export const AppRouter = () => {
             element={<PrivateRoute element={<QuizPage />} />}
           />
         </Route>
+        <Route
+          path={ROUTES.CREATE_QUIZ_PAGE}
+          element={<PrivateRoute element={<CreateQuizPage />} />}
+        />
         <Route path={ROUTES.NOT_FOUND_PAGE} element={<NotFoundPage />} />
         <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
         <Route path={ROUTES.LOGIN} element={<LoginPage />} />

@@ -43,7 +43,6 @@ export class UserService {
       id: registerUser.id,
       email: registerUser.email,
       role: registerUser.role,
-      totalPoints: registerUser.totalPoints,
     };
 
     return {
@@ -66,7 +65,6 @@ export class UserService {
       email: oldUser.email,
       id: oldUser.id,
       role: oldUser.role,
-      totalPoints: oldUser.totalPoints,
     };
 
     return {

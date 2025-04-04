@@ -3,7 +3,7 @@ import { LoginData } from "../types/LoginData";
 import { loginUser } from "../services/LoginApi";
 
 type UseLoginReturn = {
-  userLogin: () => Promise<void>;
+  userLogin: () => Promise<string>;
 };
 
 export const useLogin = (loginData: LoginData): UseLoginReturn => {
@@ -12,6 +12,8 @@ export const useLogin = (loginData: LoginData): UseLoginReturn => {
       const userData = await loginUser(loginData);
 
       localStorage.setItem("jwt", JSON.stringify(userData.token));
+
+      return userData.token;
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Login failed. Try again.";

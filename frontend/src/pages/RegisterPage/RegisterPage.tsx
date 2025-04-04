@@ -57,7 +57,7 @@ export const RegisterPage = () => {
     if (validateForm()) {
       await userRegistration();
       toast.success("Registration successful!");
-      navigate(ROUTES.QUIZZES_PAGE);
+      navigate(ROUTES.LOGIN);
 
       setRegistrationData({
         firstName: "",

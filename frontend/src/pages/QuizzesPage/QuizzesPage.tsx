@@ -1,20 +1,23 @@
 import c from "./QuizzesPage.module.css";
 import { useFetchQuizzesBySearch } from "../../hooks/useFetchQuizzesBySearch";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Quiz } from "../../types/Quiz";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { QuizList } from "../../components/QuizList";
 import { CategoryFilter } from "../../components/CategoryFilter";
 import { useFetchUserPoints } from "../../hooks/useFetchUserPoints";
-import { getDataFromToken } from "../../utils/getUserDataFromJwt";
 import { AddNewCategory } from "../../components/AddNewCategory";
 import { PointsLeaderboard } from "../../components/PointsLeadeboard";
+import { ROUTES } from "../../router/routes";
+import { UserContext } from "../../contexts/UserContext";
 
 export const QuizzesPage = () => {
-  const role = getDataFromToken("role");
+  const { email, role } = useContext(UserContext);
 
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
+
+  const navigate = useNavigate();
 
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const { fetchQuizzesBySearchData } = useFetchQuizzesBySearch({
@@ -26,7 +29,7 @@ export const QuizzesPage = () => {
   const [filteredQuizzes, setFilteredQuizzes] = useState<Quiz[]>([]);
 
   const [totalPoints, setTotalPoints] = useState<number>();
-  const { fetchUserPointsData } = useFetchUserPoints(setTotalPoints);
+  const { fetchUserPointsData } = useFetchUserPoints(setTotalPoints, email);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,6 +55,9 @@ export const QuizzesPage = () => {
       <div className={c.filterAndPoints}>
         {role === "Admin" && (
           <div className={c.adminButtons}>
+            <button onClick={() => navigate(ROUTES.CREATE_QUIZ_PAGE)}>
+              Create a quiz
+            </button>
             <PointsLeaderboard />
             <AddNewCategory />
           </div>

@@ -5,11 +5,13 @@ type UseFetchUserPointsReturn = {
 };
 
 export const useFetchUserPoints = (
-  setData: (item: number) => void
+  setData: (item: number) => void,
+  email: string
 ): UseFetchUserPointsReturn => {
   const fetchUserPointsData = async () => {
+
     try {
-      const userPoints = await fetchUserPoints();
+      const userPoints = await fetchUserPoints(email);
 
       setData(userPoints.totalPoints);
     } catch (error) {

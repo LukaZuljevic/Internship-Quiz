@@ -4,11 +4,11 @@ import {
 } from "../../types/Question";
 import c from "./QuizSolver.module.css";
 import { QuizQuestion } from "../QuizQuestion";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Answer } from "../../types/Answer";
 import { useCreateUserQuizAttempt } from "../../hooks/useCreateUserQuizAttempt";
 import { QuizAttempt } from "../../types/QuizAttempt";
-import { getDataFromToken } from "../../utils/getUserDataFromJwt";
+import { UserContext } from "../../contexts/UserContext";
 
 type QuizSolverProps = {
   quizQuestions: QuizQuestionType[];
@@ -19,6 +19,7 @@ export const QuizSolver = ({ quizQuestions }: QuizSolverProps) => {
   const [result, setResult] = useState<Record<string, boolean>>({});
   const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
 
+  const { userId } = useContext(UserContext);
   const { postUserQuizAttemptData } = useCreateUserQuizAttempt();
 
   const correctAnswers = quizQuestions.map((question: QuizQuestionType) => {
@@ -63,8 +64,6 @@ export const QuizSolver = ({ quizQuestions }: QuizSolverProps) => {
     for (const key in result) {
       if (result[key]) calculatedScore++;
     }
-
-    const userId = getDataFromToken("id");
 
     const quizAttempRequest: QuizAttempt = {
       quizId: quizQuestions[0].quizId,

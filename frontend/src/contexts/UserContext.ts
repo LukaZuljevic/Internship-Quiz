@@ -7,6 +7,7 @@ type UserContextType = {
   role: Role;
   userId: string;
   isLoading: boolean;
+  refreshUserState: () => void;
 };
 
 export const UserContext = createContext<UserContextType>({
@@ -15,4 +16,5 @@ export const UserContext = createContext<UserContextType>({
   role: Role.USER,
   userId: "",
   isLoading: true,
+  refreshUserState: () => {},
 });

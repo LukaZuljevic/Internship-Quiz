@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useEffect, useState } from "react";
 import { UserContext } from "./UserContext";
 import { getDataFromToken } from "../utils/getUserDataFromJwt";
 import { Role } from "../types/Roles";
@@ -10,16 +10,14 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const [userId, setUserId] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
+  const refreshUserState = () => {
     const token = localStorage.getItem("jwt");
 
     if (token) {
       try {
         const email = getDataFromToken("email");
-        const userId = getDataFromToken("userId");
+        const userId = getDataFromToken("id");
         const role = getDataFromToken("role");
-
-        console.log(email);
 
         setIsAuthenticated(true);
         setEmail(email);
@@ -35,11 +33,22 @@ export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
     }
 
     setIsLoading(false);
+  };
+
+  useEffect(() => {
+    refreshUserState();
   }, []);
 
   return (
     <UserContext.Provider
-      value={{ isAuthenticated, email, role, userId, isLoading }}
+      value={{
+        isAuthenticated,
+        email,
+        role,
+        userId,
+        isLoading,
+        refreshUserState,
+      }}
     >
       {children}
     </UserContext.Provider>
