@@ -55,7 +55,10 @@ export const QuizzesPage = () => {
       <div className={c.filterAndPoints}>
         {role === "Admin" && (
           <div className={c.adminButtons}>
-            <button onClick={() => navigate(ROUTES.CREATE_QUIZ_PAGE)}>
+            <button
+              className={c.createQuizButton}
+              onClick={() => navigate(ROUTES.CREATE_QUIZ_PAGE)}
+            >
               Create a quiz
             </button>
             <PointsLeaderboard />

@@ -18,6 +18,7 @@ export class QuestionService {
   async findAll() {
     const allQuestions = await this.prisma.question.findMany({
       select: {
+        id: true,
         title: true,
         type: true,
         category: {
@@ -27,9 +28,6 @@ export class QuestionService {
         },
         options: true,
         correctAnswer: true,
-        min: true,
-        max: true,
-        step: true,
       },
       orderBy: {
         category: {
@@ -55,9 +53,6 @@ export class QuestionService {
         },
         options: true,
         correctAnswer: true,
-        min: true,
-        max: true,
-        step: true,
       },
     });
 

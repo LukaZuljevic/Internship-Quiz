@@ -48,9 +48,6 @@ model Question {
   title         String
   type          QuestionType
   categoryId    String
-  min           Int?
-  max           Int?
-  step          Int?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   options       Json?
@@ -79,12 +76,8 @@ model Category {
 
 enum QuestionType {
   Field
-  TextArea
   Select
-  Checkbox
-  Date
-  Number
-  Slider
+   Number
   Match
   Order
 }

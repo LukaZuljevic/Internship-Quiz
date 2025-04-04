@@ -1,0 +1,32 @@
+.questionCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 8px;
+}
+
+.questionOptions {
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  margin-top: 5px;
+  align-items: center;
+}
+
+.questionOptions li {
+  font-weight: bold;
+  color: rgb(70, 70, 70);
+  font-size: 13px;
+}
+
+.questionInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.typeSpan {
+  font-weight: bold;
+}

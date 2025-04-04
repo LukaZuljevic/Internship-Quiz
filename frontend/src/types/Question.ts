@@ -8,7 +8,6 @@ export type CorrectAnswer =
 export type Options =
   | string[]
   | { firstArray: string[]; secondArray: string[] }
-  | { array: string[] };
 
 export type Question = {
   id: string;
