@@ -1,8 +1,9 @@
 .quizList {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   list-style: none;
+  flex-wrap: wrap;
   gap: 16px;
   padding: 16px;
 }

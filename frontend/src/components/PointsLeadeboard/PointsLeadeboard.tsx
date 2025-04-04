@@ -21,16 +21,13 @@ export const PointsLeaderboard = () => {
         className={c.leaderboardButton}
         onClick={() => setIsOpen(!isOpen)}
       >
-        Show Leaderboard
+        Show leaderboard
       </button>
 
       {isOpen && (
         <div className={c.overlay} onClick={() => setIsOpen(false)}>
-          <div
-            className={c.leaderboardCard}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2>Points Leaderboard</h2>
+          <div className={c.leaderboardCard}>
+            <h2>Points leaderboard</h2>
             <ul>
               {leaderboardData.map((user, index) => (
                 <li key={user.id}>

@@ -1,13 +1,16 @@
 import c from "../RegisterPage/RegisterPage.module.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ROUTES } from "../../router/routes";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FormInput } from "../../components/FormInput";
 import { LoginData } from "../../types/LoginData";
 import { useLogin } from "../../hooks/useLogin";
+import { UserContext } from "../../contexts/UserContext";
 
 export const LoginPage = () => {
+  const { isLoading } = useContext(UserContext);
+
   const [loginData, setLoginData] = useState<LoginData>({
     email: "",
     password: "",
@@ -43,6 +46,9 @@ export const LoginPage = () => {
     if (validateForm()) {
       await userLogin();
       toast.success("Login successful!");
+
+      while (isLoading) return <h1>Loading...</h1>;
+
       navigate(ROUTES.QUIZZES_PAGE);
 
       setLoginData({

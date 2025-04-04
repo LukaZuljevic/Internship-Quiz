@@ -1,8 +1,7 @@
-import c from "./QuizPage.module.css";
 import { useParams } from "react-router-dom";
 import { useFetchQuizQuestions } from "../../hooks/useFetchQuizQuestions";
 import { useEffect, useState } from "react";
-import { Question, QuizQuestion } from "../../types/Question";
+import { QuizQuestion } from "../../types/Question";
 import { QuizSolver } from "../../components/QuizSolver";
 
 export const QuizPage = () => {
@@ -28,9 +27,5 @@ export const QuizPage = () => {
   if (!quizId) return <h1>No quiz Id</h1>;
   if (isLoading) return <h1>Loading quiz...</h1>;
 
-  return (
-    <div className={c.quizPageContainer}>
-      <QuizSolver quizQuestions={quizQuestions} />
-    </div>
-  );
+  return <QuizSolver quizQuestions={quizQuestions} />;
 };
