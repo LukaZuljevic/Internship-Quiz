@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Question, QuestionType, Options } from "../../types/Question";
+import { Question, QuestionType } from "../../types/Question";
 import c from "./QuizQuestion.module.css";
 import { Answer } from "../../types/Answer";
 

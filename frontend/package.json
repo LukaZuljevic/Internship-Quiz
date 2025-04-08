@@ -17,6 +17,7 @@
     "react-router-dom": "^7.4.1"
   },
   "devDependencies": {
+    "@internship-quiz/appTypes": "1.0.0",
     "@eslint/js": "^9.21.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",

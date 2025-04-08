@@ -1,5 +1,5 @@
 import c from "../RegisterPage/RegisterPage.module.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ROUTES } from "../../router/routes";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";

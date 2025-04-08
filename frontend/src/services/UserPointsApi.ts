@@ -1,5 +1,5 @@
 import { USER_PATH } from "../constants";
-import { UserPointsResponseDto } from "@appTypes/types";
+import { UserPointsResponseDto } from "@internship-quiz/appTypes";
 
 export const fetchUserPoints = async (
   email: string

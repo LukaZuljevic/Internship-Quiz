@@ -21,10 +21,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-
-    "paths": {
-      "@appTypes/*": ["../appTypes/*"]
-    }
   },
-  "include": ["src",  "../appTypes"]
+  "include": ["src"]
 }

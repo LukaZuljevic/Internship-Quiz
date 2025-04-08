@@ -1,4 +1,4 @@
-import { UserPointsResponseDto } from "@appTypes/types";
+import { UserPointsResponseDto } from "@internship-quiz/appTypes";
 import { USER_PATH } from "../constants";
 
 export const fetchAllUserPoints = async (): Promise<

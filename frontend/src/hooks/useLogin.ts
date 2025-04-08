@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { LoginData } from "../types/LoginData";
 import { loginUser } from "../services/LoginApi";
-import { JwtResponseDto } from "@appTypes/types";
+import { JwtResponseDto } from "@internship-quiz/appTypes";
 
 type UseLoginReturn = {
   userLogin: () => Promise<JwtResponseDto>;

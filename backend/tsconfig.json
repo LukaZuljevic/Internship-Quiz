@@ -17,9 +17,5 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "@appTypes/*": ["../appTypes/*"]
-    }
   },
-  "include": ["src", "../appTypes"]
 }
