@@ -1,7 +1,4 @@
-import {
-  QuestionType,
-  QuizQuestion as QuizQuestionType,
-} from "../../types/Question";
+import { QuizQuestion as QuizQuestionType } from "../../types/Question";
 import c from "./QuizSolver.module.css";
 import { QuizQuestion } from "../QuizQuestion";
 import { useContext, useEffect, useState } from "react";
@@ -9,6 +6,7 @@ import { Answer } from "../../types/Answer";
 import { useCreateUserQuizAttempt } from "../../hooks/useCreateUserQuizAttempt";
 import { QuizAttempt } from "../../types/QuizAttempt";
 import { UserContext } from "../../contexts/UserContext";
+import { QuestionType } from "@internship-quiz/appTypes";
 
 type QuizSolverProps = {
   quizQuestions: QuizQuestionType[];

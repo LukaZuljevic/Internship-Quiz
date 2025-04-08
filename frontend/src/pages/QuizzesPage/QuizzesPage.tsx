@@ -43,9 +43,7 @@ export const QuizzesPage = () => {
   useEffect(() => {
     setFilteredQuizzes(
       currentCategory
-        ? quizzes.filter((quiz) =>
-            quiz.category.title.includes(currentCategory)
-          )
+        ? quizzes.filter((quiz) => quiz.category.title === currentCategory)
         : quizzes
     );
   }, [currentCategory, quizzes]);

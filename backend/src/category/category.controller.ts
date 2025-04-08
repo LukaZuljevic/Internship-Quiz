@@ -3,16 +3,15 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
-  NotFoundException,
   UseGuards,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { AdminAuthGuard } from 'src/user/admin-auth.guard';
 import { UserAuthGuard } from 'src/user/user-auth.guard';
+import { CategoryResponseDto } from '@internship-quiz/appTypes';
 
 @Controller('category')
 export class CategoryController {
@@ -20,7 +19,9 @@ export class CategoryController {
 
   @Post()
   @UseGuards(AdminAuthGuard)
-  async create(@Body() createCategoryDto: CreateCategoryDto) {
+  async create(
+    @Body() createCategoryDto: CreateCategoryDto,
+  ): Promise<CategoryResponseDto> {
     const newCategory = await this.categoryService.create(createCategoryDto);
 
     return newCategory;
@@ -28,7 +29,7 @@ export class CategoryController {
 
   @Get()
   @UseGuards(UserAuthGuard)
-  async findAll() {
+  async findAll(): Promise<CategoryResponseDto[]> {
     const allCategories = await this.categoryService.findAll();
 
     return allCategories;
@@ -36,17 +37,15 @@ export class CategoryController {
 
   @Get(':id')
   @UseGuards(UserAuthGuard)
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<CategoryResponseDto> {
     const category = await this.categoryService.findOne(id);
-
-    if (!category) throw new NotFoundException();
 
     return category;
   }
 
   @Delete(':id')
   @UseGuards(AdminAuthGuard)
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string): Promise<CategoryResponseDto> {
     const deletedCategory = await this.categoryService.delete(id);
 
     return deletedCategory;

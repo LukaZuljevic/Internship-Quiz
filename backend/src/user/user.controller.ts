@@ -4,36 +4,42 @@ import { LoginDto } from './dto/login.dto';
 import { UserAuthGuard } from './user-auth.guard';
 import { UpdatePointsDto } from './dto/update-points.dto';
 import { RegisterDto } from './dto/register.dto';
+import {
+  JwtResponseDto,
+  UserPointsResponseDto,
+} from '@internship-quiz/appTypes';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('login')
-  login(@Body() LoginDto: LoginDto) {
-    return this.userService.login(LoginDto);
+  async login(@Body() LoginDto: LoginDto): Promise<JwtResponseDto> {
+    return await this.userService.login(LoginDto);
   }
 
   @Post('register')
-  register(@Body() RegisterDto: RegisterDto) {
-    return this.userService.register(RegisterDto);
+  async register(@Body() RegisterDto: RegisterDto): Promise<JwtResponseDto> {
+    return await this.userService.register(RegisterDto);
   }
 
   @Post('points')
   @UseGuards(UserAuthGuard)
-  postNewPoints(@Body() updatePointsDto: UpdatePointsDto) {
-    return this.userService.updateUserPoints(updatePointsDto);
+  async postNewPoints(
+    @Body() updatePointsDto: UpdatePointsDto,
+  ): Promise<UserPointsResponseDto> {
+    return await this.userService.updateUserPoints(updatePointsDto);
   }
 
   @Get()
   @UseGuards(UserAuthGuard)
-  getAllUserPoints() {
-    return this.userService.findAllUserPoints();
+  async getAllUserPoints(): Promise<UserPointsResponseDto[]> {
+    return await this.userService.findAllUserPoints();
   }
 
   @Get('points/:email')
   @UseGuards(UserAuthGuard)
-  findOne(@Param('email') email: string) {
-    return this.userService.getUserPoints(email);
+  async findOne(@Param('email') email: string): Promise<UserPointsResponseDto> {
+    return await this.userService.getUserPoints(email);
   }
 }

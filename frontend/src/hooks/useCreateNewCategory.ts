@@ -8,11 +8,9 @@ type UseCreateAllCategoriesReturn = {
 export const useCreateNewCategory = (): UseCreateAllCategoriesReturn => {
   const createNewCategoryData = async (title: string, imageUrl: string) => {
     try {
-      const newCategory = await createNewCategory({ title, imageUrl });
+      await createNewCategory({ title, imageUrl });
 
       toast.success("New category added!");
-
-      return newCategory;
     } catch (error) {
       console.log(`${error}`);
     }

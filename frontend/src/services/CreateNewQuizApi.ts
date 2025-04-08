@@ -1,7 +1,11 @@
+import { CreateQuizResponseDto } from "@internship-quiz/app-types";
 import { QUIZ_API_PATH } from "../constants";
 import { NewQuizRequest } from "../types/NewQuizRequest";
 
-export const createNewQuiz = async ({ title, categoryId }: NewQuizRequest) => {
+export const createNewQuiz = async ({
+  title,
+  categoryId,
+}: NewQuizRequest): Promise<CreateQuizResponseDto | undefined> => {
   const url = `${QUIZ_API_PATH}`;
   const token = JSON.parse(localStorage.getItem("jwt") || "null");
 

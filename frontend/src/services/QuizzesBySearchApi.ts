@@ -1,6 +1,9 @@
+import { QuizResponseDto } from "@internship-quiz/appTypes";
 import { QUIZ_API_PATH } from "../constants";
 
-export const fetchQuizzesBySearch = async (search: string) => {
+export const fetchQuizzesBySearch = async (
+  search: string
+): Promise<QuizResponseDto[]> => {
   const url = search ? `${QUIZ_API_PATH}/search/${search}` : `${QUIZ_API_PATH}`;
   const token = JSON.parse(localStorage.getItem("jwt") || "null");
 

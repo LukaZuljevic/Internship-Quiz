@@ -1,5 +1,6 @@
 import toast from "react-hot-toast";
 import { CATEGORY_PATH } from "../constants";
+import { CategoryResponseDto } from "@internship-quiz/appTypes";
 
 type CreateNewCategoryProps = {
   title: string;
@@ -9,7 +10,7 @@ type CreateNewCategoryProps = {
 export const createNewCategory = async ({
   title,
   imageUrl,
-}: CreateNewCategoryProps) => {
+}: CreateNewCategoryProps): Promise<CategoryResponseDto> => {
   const url = `${CATEGORY_PATH}`;
   const token = JSON.parse(localStorage.getItem("jwt") || "null");
 
