@@ -15,7 +15,7 @@ import {
   Payload,
   Role,
   UserPointsResponseDto,
-} from '@internship-quiz/appTypes';
+} from '@internship-quiz/app-types';
 
 @Injectable()
 export class UserService {

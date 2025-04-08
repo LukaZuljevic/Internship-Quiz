@@ -1,4 +1,4 @@
-import { JwtResponseDto } from "@internship-quiz/appTypes";
+import { JwtResponseDto } from "@internship-quiz/app-types";
 import { LOGIN_USER_PATH } from "../constants";
 import { LoginData } from "../types/LoginData";
 
