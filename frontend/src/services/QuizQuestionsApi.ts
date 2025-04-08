@@ -1,6 +1,9 @@
 import { QUIZ_QUESTIONS_PATH } from "../constants";
+import { QuizQuestionsResponseDto } from "@internship-quiz/appTypes";
 
-export const fetchQuizQuestions = async (quizId: string) => {
+export const fetchQuizQuestions = async (
+  quizId: string
+): Promise<QuizQuestionsResponseDto[]> => {
   const url = `${QUIZ_QUESTIONS_PATH}/${quizId}`;
 
   const token = JSON.parse(localStorage.getItem("jwt") || "null");

@@ -1,16 +1,31 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserQuizAnswerDto } from './dto/create-user-quiz-answer.dto';
 import { PrismaService } from 'src/prisma.service';
+import { CorrectAnswer, CreateUserQuizAttemptResponseDto } from '@internship-quiz/appTypes';
 
 @Injectable()
 export class UserQuizAnswersService {
-  constructor(
-    private readonly prisma: PrismaService,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(createUserQuizAnswerDto: CreateUserQuizAnswerDto) {
+  async create(
+    createUserQuizAnswerDto: CreateUserQuizAnswerDto,
+  ): Promise<CreateUserQuizAttemptResponseDto> {
     const newUserQuizAnswers = await this.prisma.userQuizAnswers.create({
       data: createUserQuizAnswerDto,
+      select: {
+        quiz: {
+          select: {
+            id: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+          },
+        },
+        answers: true,
+        points: true,
+      },
     });
 
     await this.prisma.user.update({
@@ -22,7 +37,10 @@ export class UserQuizAnswersService {
       },
     });
 
-    return newUserQuizAnswers;
+    return {
+      ...newUserQuizAnswers,
+      answers: newUserQuizAnswers.answers as CorrectAnswer,
+    };
   }
 
   async findByQuizAndUserId(quizId: string, userId: string) {

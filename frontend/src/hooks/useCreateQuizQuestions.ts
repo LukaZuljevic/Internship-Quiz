@@ -1,12 +1,13 @@
 import toast from "react-hot-toast";
 import { createQuizQuestions } from "../services/NewQuizQuestionsApi";
 import { Question } from "../types/Question";
+import { QuizQuestionsResponseDto } from "@internship-quiz/appTypes";
 
 type UseCreateQuizQuestionsReturn = {
   createQuizQuestionsData: (
     quizId: string,
     questions: Question[]
-  ) => Promise<any[] | undefined>;
+  ) => Promise<QuizQuestionsResponseDto[] | undefined>;
 };
 
 export const useCreateQuizQuestions = (): UseCreateQuizQuestionsReturn => {
@@ -23,6 +24,7 @@ export const useCreateQuizQuestions = (): UseCreateQuizQuestionsReturn => {
     } catch (error) {
       console.log(`${error}`);
       toast.error("Failed to add questions to quiz");
+      return undefined;
     }
   };
 

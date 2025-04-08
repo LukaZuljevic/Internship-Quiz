@@ -19,3 +19,5 @@ __exportStar(require("./user"), exports);
 __exportStar(require("./quiz"), exports);
 __exportStar(require("./question"), exports);
 __exportStar(require("./category"), exports);
+__exportStar(require("./quiz-questions"), exports);
+__exportStar(require("./user-quiz-attempt"), exports);

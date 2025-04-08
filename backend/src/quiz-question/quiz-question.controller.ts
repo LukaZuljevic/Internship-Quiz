@@ -1,16 +1,12 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Delete,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { QuizQuestionService } from './quiz-question.service';
 import { CreateQuizQuestionDto } from './dto/create-quiz-question.dto';
 import { AdminAuthGuard } from 'src/user/admin-auth.guard';
 import { UserAuthGuard } from 'src/user/user-auth.guard';
+import {
+  CreateQuizQuestionsResponseDto,
+  QuizQuestionsResponseDto,
+} from '@internship-quiz/appTypes';
 
 @Controller('quiz-question')
 export class QuizQuestionController {
@@ -18,7 +14,9 @@ export class QuizQuestionController {
 
   @Post()
   @UseGuards(AdminAuthGuard)
-  async create(@Body() createQuizQuestionDto: CreateQuizQuestionDto) {
+  async create(
+    @Body() createQuizQuestionDto: CreateQuizQuestionDto,
+  ): Promise<CreateQuizQuestionsResponseDto> {
     const newQuizQuestion = await this.quizQuestionService.create(
       createQuizQuestionDto,
     );
@@ -28,17 +26,9 @@ export class QuizQuestionController {
 
   @Get(':id')
   @UseGuards(UserAuthGuard)
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<QuizQuestionsResponseDto[]> {
     const quizQuestion = await this.quizQuestionService.findQuizQuestions(id);
 
     return quizQuestion;
-  }
-
-  @Delete(':id')
-  @UseGuards(AdminAuthGuard)
-  async remove(@Param('id') id: string) {
-    const deletedQuizQuestion = await this.quizQuestionService.remove(id);
-
-    return deletedQuizQuestion;
   }
 }

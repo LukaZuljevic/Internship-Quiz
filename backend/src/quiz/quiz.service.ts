@@ -4,6 +4,7 @@ import { UpdateQuizDto } from './dto/update-quiz.dto';
 import { PrismaService } from 'src/prisma.service';
 import {
   CreateQuizResponseDto,
+  DeleteQuizResponseDto,
   QuizResponseDto,
 } from '@internship-quiz/app-types';
 
@@ -97,7 +98,7 @@ export class QuizService {
     return updatedQuiz;
   }
 
-  async delete(id: string): Promise<QuizResponseDto> {
+  async delete(id: string): Promise<DeleteQuizResponseDto> {
     const quizToDelete = await this.prisma.quiz.findUnique({
       where: { id },
     });
@@ -109,13 +110,6 @@ export class QuizService {
       select: {
         id: true,
         title: true,
-        category: {
-          select: {
-            id: true,
-            title: true,
-            imageUrl: true,
-          },
-        },
       },
     });
 

@@ -8,7 +8,7 @@ export type Options = string[] | {
     firstArray: string[];
     secondArray: string[];
 };
-export type QuizQuestionDto = {
+export type QuestionResponseDto = {
     id: string;
     title: string;
     type: QuestionType;
@@ -17,4 +17,8 @@ export type QuizQuestionDto = {
     };
     options?: Options;
     correctAnswer: CorrectAnswer;
+};
+export type DeleteQuestionResponseDto = {
+    id: string;
+    title: string;
 };

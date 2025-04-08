@@ -12,6 +12,10 @@ import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { UserAuthGuard } from 'src/user/user-auth.guard';
+import {
+  DeleteQuestionResponseDto,
+  QuestionResponseDto,
+} from '@internship-quiz/appTypes';
 
 @Controller('question')
 export class QuestionController {
@@ -19,7 +23,9 @@ export class QuestionController {
 
   @Post()
   @UseGuards(UserAuthGuard)
-  async create(@Body() createQuestionDto: CreateQuestionDto) {
+  async create(
+    @Body() createQuestionDto: CreateQuestionDto,
+  ): Promise<QuestionResponseDto> {
     const newQuestion = await this.questionService.create(createQuestionDto);
 
     return newQuestion;
@@ -27,7 +33,7 @@ export class QuestionController {
 
   @Get()
   @UseGuards(UserAuthGuard)
-  async findAll() {
+  async findAll(): Promise<QuestionResponseDto[]> {
     const allQuestions = await this.questionService.findAll();
 
     return allQuestions;
@@ -35,7 +41,7 @@ export class QuestionController {
 
   @Get(':id')
   @UseGuards(UserAuthGuard)
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<QuestionResponseDto> {
     const question = await this.questionService.findOne(id);
 
     return question;
@@ -46,7 +52,7 @@ export class QuestionController {
   async update(
     @Param('id') id: string,
     @Body() updateQuestionDto: UpdateQuestionDto,
-  ) {
+  ): Promise<QuestionResponseDto> {
     const updatedQuestion = await this.questionService.update(
       id,
       updateQuestionDto,
@@ -57,7 +63,7 @@ export class QuestionController {
 
   @Delete(':id')
   @UseGuards(UserAuthGuard)
-  async delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string): Promise<DeleteQuestionResponseDto> {
     const deletedQuestion = await this.questionService.delete(id);
 
     return deletedQuestion;

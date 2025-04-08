@@ -8,7 +8,9 @@ export type Question = {
   id: string;
   title: string;
   type: QuestionType;
-  categoryId: string;
+  category: {
+    title: string;
+  };
   options?: Options;
   correctAnswer: CorrectAnswer;
 };

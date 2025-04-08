@@ -15,6 +15,7 @@ import { AdminAuthGuard } from 'src/user/admin-auth.guard';
 import { UserAuthGuard } from 'src/user/user-auth.guard';
 import {
   CreateQuizResponseDto,
+  DeleteQuizResponseDto,
   QuizResponseDto,
 } from '@internship-quiz/appTypes';
 
@@ -61,7 +62,7 @@ export class QuizController {
 
   @Delete(':id')
   @UseGuards(AdminAuthGuard)
-  async delete(@Param('id') id: string): Promise<QuizResponseDto> {
+  async delete(@Param('id') id: string): Promise<DeleteQuizResponseDto> {
     const deletedQuiz = await this.quizService.delete(id);
 
     return deletedQuiz;

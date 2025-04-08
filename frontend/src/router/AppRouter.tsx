@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { ROUTES } from "./routes";
 import { QuizzesPage } from "../pages/QuizzesPage";
 import { Layout } from "../pages/Layout";
@@ -14,6 +19,7 @@ export const AppRouter = () => {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to={ROUTES.QUIZZES_PAGE} />} />
         <Route path={ROUTES.QUIZZES_PAGE} element={<Layout />}>
           <Route index element={<PrivateRoute element={<QuizzesPage />} />} />
           <Route

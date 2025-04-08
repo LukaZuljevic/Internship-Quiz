@@ -1,4 +1,4 @@
-import { QuizQuestionDto } from "./question";
+import { QuestionResponseDto } from "./question";
 export type CreateQuizResponseDto = {
     id: string;
     title: string;
@@ -20,6 +20,10 @@ export type QuizWithQuestionsResponseDto = {
         imageUrl: string | null;
     };
     quizQuestions: {
-        question: QuizQuestionDto[];
+        question: QuestionResponseDto[];
     };
+};
+export type DeleteQuizResponseDto = {
+    id: string;
+    title: string;
 };

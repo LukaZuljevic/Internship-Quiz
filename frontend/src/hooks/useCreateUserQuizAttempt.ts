@@ -1,10 +1,12 @@
 import { QuizAttempt } from "../types/QuizAttempt";
 import { postQuizAttempt } from "../services/CreateQuizAttempt";
+import toast from "react-hot-toast";
+import { CreateUserQuizAttemptResponseDto } from "@internship-quiz/appTypes";
 
 type UseCreateUserQuizAttemptReturn = {
   postUserQuizAttemptData: ({
     request,
-  }: PostUserQuizAttemptProps) => Promise<void>;
+  }: PostUserQuizAttemptProps) => Promise<CreateUserQuizAttemptResponseDto>;
 };
 
 type PostUserQuizAttemptProps = {
@@ -16,7 +18,6 @@ export const useCreateUserQuizAttempt = (): UseCreateUserQuizAttemptReturn => {
     request,
   }: PostUserQuizAttemptProps) => {
     try {
-      console.log(request);
       const createQuizAttempt = await postQuizAttempt(request);
 
       return createQuizAttempt;
@@ -25,7 +26,7 @@ export const useCreateUserQuizAttempt = (): UseCreateUserQuizAttemptReturn => {
         error instanceof Error
           ? error.message
           : "posting wuiz attempt failed. Try again.";
-      console.log(errorMessage);
+      toast.error(errorMessage);
       throw error;
     }
   };
