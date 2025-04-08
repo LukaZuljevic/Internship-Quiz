@@ -1,7 +1,10 @@
+import { JwtResponseDto } from "@appTypes/types";
 import { REGISTER_USER_PATH } from "../constants";
 import { RegistrationData } from "../types/RegistrationData";
 
-export const registerUser = async (registrationData: RegistrationData) => {
+export const registerUser = async (
+  registrationData: RegistrationData
+): Promise<JwtResponseDto> => {
   const url = `${REGISTER_USER_PATH}`;
 
   const response = await fetch(url, {

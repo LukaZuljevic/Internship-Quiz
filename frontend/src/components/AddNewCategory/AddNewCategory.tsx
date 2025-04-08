@@ -10,8 +10,8 @@ export const AddNewCategory = () => {
   const { createNewCategoryData } = useCreateNewCategory();
 
   const handleButtonClick = () => {
-    if (!newTitle.trim() || !newImageUrl.trim()) {
-      toast.error("All fields are required!");
+    if (!newTitle.trim()) {
+      toast.error("title field is required!");
       return;
     }
 

@@ -1,9 +1,10 @@
 import toast from "react-hot-toast";
 import { LoginData } from "../types/LoginData";
 import { loginUser } from "../services/LoginApi";
+import { JwtResponseDto } from "@appTypes/types";
 
 type UseLoginReturn = {
-  userLogin: () => Promise<string>;
+  userLogin: () => Promise<JwtResponseDto>;
 };
 
 export const useLogin = (loginData: LoginData): UseLoginReturn => {
@@ -13,7 +14,7 @@ export const useLogin = (loginData: LoginData): UseLoginReturn => {
 
       localStorage.setItem("jwt", JSON.stringify(userData.token));
 
-      return userData.token;
+      return userData;
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Login failed. Try again.";

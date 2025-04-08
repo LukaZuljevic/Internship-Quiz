@@ -11,10 +11,9 @@ export const useFetchAllUserPoints = (
   const fetchAllUserPointsData = async () => {
     try {
       const fetchedData = await fetchAllUserPoints();
-
       if (fetchedData) setData(fetchedData);
     } catch (error) {
-      console.log(`${error}`);
+      console.log(`Fetch error: ${error}`);
     }
   };
 

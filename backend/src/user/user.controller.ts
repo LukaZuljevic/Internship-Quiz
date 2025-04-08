@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { UserAuthGuard } from './user-auth.guard';
 import { UpdatePointsDto } from './dto/update-points.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @Controller('user')
 export class UserController {
@@ -15,7 +15,7 @@ export class UserController {
   }
 
   @Post('register')
-  register(@Body() RegisterDto: CreateUserDto) {
+  register(@Body() RegisterDto: RegisterDto) {
     return this.userService.register(RegisterDto);
   }
 

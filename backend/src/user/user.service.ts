@@ -2,14 +2,20 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'src/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { hash, compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import { UpdatePointsDto } from './dto/update-points.dto';
+import {
+  JwtResponseDto,
+  Payload,
+  Role,
+  UserPointsResponseDto,
+} from '@appTypes/types';
 
 @Injectable()
 export class UserService {
@@ -18,12 +24,10 @@ export class UserService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(RegisterDto: RegisterDto) {
+  async register(RegisterDto: RegisterDto): Promise<JwtResponseDto> {
     const oldUser = await this.prisma.user.findUnique({
       where: { email: RegisterDto.email },
     });
-
-    console.log(oldUser);
 
     if (oldUser)
       throw new BadRequestException('User with that email already exists');
@@ -39,10 +43,10 @@ export class UserService {
       },
     });
 
-    const payload = {
+    const payload: Payload = {
       id: registerUser.id,
       email: registerUser.email,
-      role: registerUser.role,
+      role: registerUser.role as Role,
     };
 
     return {
@@ -50,21 +54,22 @@ export class UserService {
     };
   }
 
-  async login(LoginDto: LoginDto) {
+  async login(LoginDto: LoginDto): Promise<JwtResponseDto> {
     const oldUser = await this.prisma.user.findUnique({
       where: { email: LoginDto.email },
     });
 
-    if (!oldUser) throw new NotFoundException('User with that email not found');
+    if (!oldUser) throw new UnauthorizedException('Invalid email or password');
 
     const passwordMatch = await compare(LoginDto.password, oldUser.password);
 
-    if (!passwordMatch) throw new NotFoundException('Invalid password');
+    if (!passwordMatch)
+      throw new UnauthorizedException('Invalid email or password');
 
-    const payload = {
+    const payload: Payload = {
       email: oldUser.email,
       id: oldUser.id,
-      role: oldUser.role,
+      role: oldUser.role as Role,
     };
 
     return {
@@ -72,7 +77,7 @@ export class UserService {
     };
   }
 
-  async findAllUserPoints() {
+  async findAllUserPoints(): Promise<UserPointsResponseDto[]> {
     const allUsers = await this.prisma.user.findMany({
       select: {
         id: true,
@@ -85,13 +90,18 @@ export class UserService {
       },
     });
 
+    if (!allUsers) throw new NotFoundException('No users found.');
+
     return allUsers;
   }
 
-  async getUserPoints(email: string) {
+  async getUserPoints(email: string): Promise<UserPointsResponseDto> {
     const user = await this.prisma.user.findUnique({
       where: { email },
       select: {
+        id: true,
+        firstName: true,
+        lastName: true,
         totalPoints: true,
       },
     });
@@ -102,7 +112,9 @@ export class UserService {
     return user;
   }
 
-  async updateUserPoints(updatePointsDto: UpdatePointsDto) {
+  async updateUserPoints(
+    updatePointsDto: UpdatePointsDto,
+  ): Promise<UserPointsResponseDto> {
     const user = await this.prisma.user.findUnique({
       where: { id: updatePointsDto.userId },
       select: {
@@ -119,6 +131,8 @@ export class UserService {
       },
       select: {
         id: true,
+        firstName: true,
+        lastName: true,
         totalPoints: true,
       },
     });

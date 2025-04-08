@@ -1,9 +1,10 @@
 import toast from "react-hot-toast";
 import { registerUser } from "../services/RegisterApi";
 import { RegistrationData } from "../types/RegistrationData";
+import { JwtResponseDto } from "@appTypes/types";
 
 type UseRegisterReturn = {
-  userRegistration: () => Promise<void>;
+  userRegistration: () => Promise<JwtResponseDto>;
 };
 
 export const useRegister = (
@@ -14,6 +15,8 @@ export const useRegister = (
       const userData = await registerUser(registrationData);
 
       localStorage.setItem("jwt", JSON.stringify(userData.token));
+
+      return userData;
     } catch (error) {
       const errorMessage =
         error instanceof Error

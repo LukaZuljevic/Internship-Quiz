@@ -20,7 +20,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "paths": {
+      "@appTypes/*": ["../appTypes/*"]
+    }
   },
-  "include": ["src"]
+  "include": ["src",  "../appTypes"]
 }

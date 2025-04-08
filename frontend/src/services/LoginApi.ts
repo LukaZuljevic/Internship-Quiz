@@ -1,7 +1,10 @@
+import { JwtResponseDto } from "@appTypes/types";
 import { LOGIN_USER_PATH } from "../constants";
 import { LoginData } from "../types/LoginData";
 
-export const loginUser = async (loginData: LoginData) => {
+export const loginUser = async (
+  loginData: LoginData
+): Promise<JwtResponseDto> => {
   const url = `${LOGIN_USER_PATH}`;
 
   const response = await fetch(url, {

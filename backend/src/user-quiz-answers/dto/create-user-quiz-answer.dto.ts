@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Prisma } from '@prisma/client';
-import { IsNumber, IsString } from 'class-validator';
+import { IsJSON, IsNumber, IsString } from 'class-validator';
 
 export class CreateUserQuizAnswerDto {
   @IsString()

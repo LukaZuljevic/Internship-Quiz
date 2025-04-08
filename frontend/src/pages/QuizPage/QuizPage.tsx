@@ -3,6 +3,7 @@ import { useFetchQuizQuestions } from "../../hooks/useFetchQuizQuestions";
 import { useEffect, useState } from "react";
 import { QuizQuestion } from "../../types/Question";
 import { QuizSolver } from "../../components/QuizSolver";
+import { NotFoundPage } from "../NotFoundPage";
 
 export const QuizPage = () => {
   const { quizId } = useParams();
@@ -24,7 +25,8 @@ export const QuizPage = () => {
     }
   }, [quizId]);
 
-  if (!quizId) return <h1>No quiz Id</h1>;
+  if (quizQuestions.length < 1) return <NotFoundPage />;
+
   if (isLoading) return <h1>Loading quiz...</h1>;
 
   return <QuizSolver quizQuestions={quizQuestions} />;

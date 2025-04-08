@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, MinLength } from 'class-validator';
+import { IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
 import { Prisma, QuestionType } from '@prisma/client';
 
 export class CreateQuestionDto {
@@ -15,19 +15,8 @@ export class CreateQuestionDto {
   @ApiProperty()
   categoryId: string;
 
-  @IsNumber()
   @ApiProperty()
-  min?: number;
-
-  @IsNumber()
-  @ApiProperty()
-  max?: number;
-
-  @IsNumber()
-  @ApiProperty()
-  step?: number;
-
-  @ApiProperty()
+  @IsOptional()
   options?: Prisma.JsonObject;
 
   @ApiProperty()

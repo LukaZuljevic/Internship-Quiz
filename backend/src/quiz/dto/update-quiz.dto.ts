@@ -1,11 +1,15 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateQuizDto } from './create-quiz.dto';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 
 export class UpdateQuizDto extends PartialType(CreateQuizDto) {
-  @ApiPropertyOptional()
+  @IsString()
+  @ApiProperty()
+  @IsOptional()
   title?: string;
 
-  @ApiPropertyOptional()
+  @ApiProperty()
+  @IsOptional()
   categoryId?: string;
 }

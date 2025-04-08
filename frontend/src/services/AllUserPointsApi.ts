@@ -1,6 +1,9 @@
+import { UserPointsResponseDto } from "@appTypes/types";
 import { USER_PATH } from "../constants";
 
-export const fetchAllUserPoints = async () => {
+export const fetchAllUserPoints = async (): Promise<
+  UserPointsResponseDto[]
+> => {
   const url = `${USER_PATH}`;
   const token = JSON.parse(localStorage.getItem("jwt") || "null");
 
