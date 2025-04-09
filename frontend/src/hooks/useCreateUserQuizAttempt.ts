@@ -1,5 +1,5 @@
 import { QuizAttempt } from "../types/QuizAttempt";
-import { postQuizAttempt } from "../services/CreateQuizAttempt";
+import { postQuizAttempt } from "../services/CreateQuizAttemptApi";
 import toast from "react-hot-toast";
 import { CreateUserQuizAttemptResponseDto } from "@internship-quiz/appTypes";
 

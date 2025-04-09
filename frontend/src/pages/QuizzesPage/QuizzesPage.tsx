@@ -10,14 +10,15 @@ import { AddNewCategory } from "../../components/AddNewCategory";
 import { PointsLeaderboard } from "../../components/PointsLeadeboard";
 import { ROUTES } from "../../router/routes";
 import { UserContext } from "../../contexts/UserContext";
+import { useFetchSolvedQuizzes } from "../../hooks/useFetchSolvedQuizzes";
+import { QuizBasicAttemptInfo } from "../../types/QuizAttempt";
 
 export const QuizzesPage = () => {
-  const { email, role } = useContext(UserContext);
+  const { email, role, userId } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
-
-  const navigate = useNavigate();
 
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const { fetchQuizzesBySearchData } = useFetchQuizzesBySearch({
@@ -31,14 +32,30 @@ export const QuizzesPage = () => {
   const [totalPoints, setTotalPoints] = useState<number>();
   const { fetchUserPointsData } = useFetchUserPoints(setTotalPoints, email);
 
+  const [solvedQuizzes, setSolvedQuizzes] = useState<QuizBasicAttemptInfo[]>(
+    []
+  );
+  const { fetchSolvedQuizzesData } = useFetchSolvedQuizzes({
+    setData: setSolvedQuizzes,
+    userId,
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       await fetchQuizzesBySearchData(search);
-      await fetchUserPointsData();
+      await fetchSolvedQuizzesData(userId);
     };
 
     fetchData();
   }, [search]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchUserPointsData();
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     setFilteredQuizzes(
@@ -71,7 +88,7 @@ export const QuizzesPage = () => {
       </div>
 
       {filteredQuizzes.length > 0 ? (
-        <QuizList quizzes={filteredQuizzes} />
+        <QuizList quizzes={filteredQuizzes} solvedQuizzes={solvedQuizzes} />
       ) : (
         <p className={c.noQuizFound}>
           No quizzes found. Search something different!

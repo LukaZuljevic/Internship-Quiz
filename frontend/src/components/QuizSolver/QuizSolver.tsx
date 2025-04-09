@@ -1,7 +1,7 @@
 import { QuizQuestion as QuizQuestionType } from "../../types/Question";
 import c from "./QuizSolver.module.css";
 import { QuizQuestion } from "../QuizQuestion";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Answer } from "../../types/Answer";
 import { useCreateUserQuizAttempt } from "../../hooks/useCreateUserQuizAttempt";
 import { QuizAttempt } from "../../types/QuizAttempt";
@@ -53,25 +53,23 @@ export const QuizSolver = ({ quizQuestions }: QuizSolverProps) => {
       );
     });
 
-    setResult(newResults);
-    setIsSubmitDisabled(true);
-  };
-
-  useEffect(() => {
     let calculatedScore = 0;
-    for (const key in result) {
-      if (result[key]) calculatedScore++;
+    for (const key in newResults) {
+      if (newResults[key]) calculatedScore++;
     }
 
-    const quizAttempRequest: QuizAttempt = {
+    const quizAttemptRequest: QuizAttempt = {
       quizId: quizQuestions[0].quizId,
       userId: userId,
       answers: answers,
       points: calculatedScore,
     };
 
-    postUserQuizAttemptData({ request: quizAttempRequest });
-  }, [result]);
+    postUserQuizAttemptData({ request: quizAttemptRequest });
+
+    setResult(newResults);
+    setIsSubmitDisabled(true);
+  };
 
   const checkAnswer = (answer: any, userAnswer: Answer, type: QuestionType) => {
     switch (type) {

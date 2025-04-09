@@ -1,14 +1,12 @@
-import { CorrectAnswer } from "./question";
+import { Answer } from "../../../../frontend/src/types/Answer";
 
-export type CreateUserQuizAttemptResponseDto = {
+export type UserQuizAttemptDto = {
   quiz: {
     id: string;
   };
-
   user: {
     id: string;
   };
-
-  answers: CorrectAnswer;
+  answers: Record<string, Answer>;
   points: number;
 };

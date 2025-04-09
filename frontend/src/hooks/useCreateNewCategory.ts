@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { createNewCategory } from "../services/CreateNewCategory";
+import { createNewCategory } from "../services/CreateNewCategoryApi";
 
 type UseCreateAllCategoriesReturn = {
   createNewCategoryData: (title: string, imageUrl: string) => Promise<void>;

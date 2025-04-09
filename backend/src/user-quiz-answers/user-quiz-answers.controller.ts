@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { UserQuizAnswersService } from './user-quiz-answers.service';
 import { CreateUserQuizAnswerDto } from './dto/create-user-quiz-answer.dto';
 import { UserAuthGuard } from 'src/user/user-auth.guard';
-import { CreateUserQuizAttemptResponseDto } from '@internship-quiz/appTypes';
+import { UserQuizAttemptDto } from '@internship-quiz/appTypes';
 
 @Controller('user-quiz-answers')
 export class UserQuizAnswersController {
@@ -13,7 +13,7 @@ export class UserQuizAnswersController {
   @Post()
   async create(
     @Body() createUserQuizAnswerDto: CreateUserQuizAnswerDto,
-  ): Promise<CreateUserQuizAttemptResponseDto> {
+  ): Promise<UserQuizAttemptDto> {
     const newUserQuizAnswers = await this.userQuizAnswersService.create(
       createUserQuizAnswerDto,
     );
@@ -21,19 +21,21 @@ export class UserQuizAnswersController {
     return newUserQuizAnswers;
   }
 
+  @Get('/user/:userId')
+  @UseGuards(UserAuthGuard)
+  async findAllByUserId(
+    @Param('userId') userId: string,
+  ): Promise<UserQuizAttemptDto[]> {
+    return this.userQuizAnswersService.findAllByUserId(userId);
+  }
+
   //dodaj response dto kad budes radia
-  @Get('answers/quiz/:quizId/user/:userId')
+  @Get('/quiz/:quizId/user/:userId')
   @UseGuards(UserAuthGuard)
   async findByQuizAndUser(
     @Param('quizId') quizId: string,
     @Param('userId') userId: string,
   ) {
     return this.userQuizAnswersService.findByQuizAndUserId(quizId, userId);
-  }
-
-  @Get('answers/quiz/:quizId')
-  @UseGuards(UserAuthGuard)
-  async findAllByQuiz(@Param('quizId') quizId: string) {
-    return this.userQuizAnswersService.findAllByQuizId(quizId);
   }
 }

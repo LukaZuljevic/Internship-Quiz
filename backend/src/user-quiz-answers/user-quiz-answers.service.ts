@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserQuizAnswerDto } from './dto/create-user-quiz-answer.dto';
 import { PrismaService } from 'src/prisma.service';
-import { CorrectAnswer, CreateUserQuizAttemptResponseDto } from '@internship-quiz/appTypes';
+import { UserQuizAttemptDto } from '@internship-quiz/appTypes';
 
 @Injectable()
 export class UserQuizAnswersService {
@@ -9,7 +9,7 @@ export class UserQuizAnswersService {
 
   async create(
     createUserQuizAnswerDto: CreateUserQuizAnswerDto,
-  ): Promise<CreateUserQuizAttemptResponseDto> {
+  ): Promise<UserQuizAttemptDto> {
     const newUserQuizAnswers = await this.prisma.userQuizAnswers.create({
       data: createUserQuizAnswerDto,
       select: {
@@ -37,10 +37,30 @@ export class UserQuizAnswersService {
       },
     });
 
-    return {
-      ...newUserQuizAnswers,
-      answers: newUserQuizAnswers.answers as CorrectAnswer,
-    };
+    return newUserQuizAnswers;
+  }
+
+  async findAllByUserId(userId: string): Promise<UserQuizAttemptDto[]> {
+    const answers = await this.prisma.userQuizAnswers.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        quiz: {
+          select: {
+            id: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+          },
+        },
+        points: true,
+      },
+    });
+
+    return answers;
   }
 
   async findByQuizAndUserId(quizId: string, userId: string) {
@@ -73,33 +93,5 @@ export class UserQuizAnswersService {
     if (!answer) throw new NotFoundException('Answers for that quiz not found');
 
     return answer;
-  }
-
-  async findAllByQuizId(quizId: string) {
-    const answers = await this.prisma.userQuizAnswers.findMany({
-      where: {
-        quizId,
-      },
-      include: {
-        quiz: {
-          select: {
-            title: true,
-          },
-        },
-        user: {
-          select: {
-            firstName: true,
-            lastName: true,
-            email: true,
-            totalPoints: true,
-          },
-        },
-      },
-      orderBy: {
-        points: 'desc',
-      },
-    });
-
-    return answers;
   }
 }
