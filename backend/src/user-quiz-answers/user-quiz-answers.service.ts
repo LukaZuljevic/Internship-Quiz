@@ -1,7 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserQuizAnswerDto } from './dto/create-user-quiz-answer.dto';
 import { PrismaService } from 'src/prisma.service';
-import { UserQuizAttemptDto } from '@internship-quiz/appTypes';
+import {
+  UserQuizBasicAttemptDto,
+  UserQuizAttemptAnswersDto,
+} from '@internship-quiz/appTypes';
 
 @Injectable()
 export class UserQuizAnswersService {
@@ -9,7 +12,7 @@ export class UserQuizAnswersService {
 
   async create(
     createUserQuizAnswerDto: CreateUserQuizAnswerDto,
-  ): Promise<UserQuizAttemptDto> {
+  ): Promise<UserQuizAttemptAnswersDto> {
     const newUserQuizAnswers = await this.prisma.userQuizAnswers.create({
       data: createUserQuizAnswerDto,
       select: {
@@ -37,10 +40,10 @@ export class UserQuizAnswersService {
       },
     });
 
-    return newUserQuizAnswers;
+    return newUserQuizAnswers as UserQuizAttemptAnswersDto;
   }
 
-  async findAllByUserId(userId: string): Promise<UserQuizAttemptDto[]> {
+  async findAllByUserId(userId: string): Promise<UserQuizBasicAttemptDto[]> {
     const answers = await this.prisma.userQuizAnswers.findMany({
       where: {
         userId,
@@ -63,35 +66,34 @@ export class UserQuizAnswersService {
     return answers;
   }
 
-  async findByQuizAndUserId(quizId: string, userId: string) {
-    const answer = await this.prisma.userQuizAnswers.findFirst({
+  async findByQuizAndUserId(
+    quizId: string,
+    userId: string,
+  ): Promise<UserQuizAttemptAnswersDto> {
+    const attempt = await this.prisma.userQuizAnswers.findFirst({
       where: {
         quizId,
         userId,
       },
-      include: {
+      select: {
         quiz: {
           select: {
-            title: true,
-            quizQuestions: {
-              include: {
-                question: true,
-              },
-            },
+            id: true,
           },
         },
         user: {
           select: {
-            firstName: true,
-            lastName: true,
-            email: true,
+            id: true,
           },
         },
+        answers: true,
+        points: true,
       },
     });
 
-    if (!answer) throw new NotFoundException('Answers for that quiz not found');
+    if (!attempt)
+      throw new NotFoundException('Answers for that quiz not found');
 
-    return answer;
+    return attempt as UserQuizAttemptAnswersDto;
   }
 }

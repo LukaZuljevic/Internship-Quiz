@@ -18,7 +18,9 @@ export const QuizCard = ({
   const navigate = useNavigate();
 
   const handleCardClick = () => {
-    navigate(ROUTES.QUIZ_PAGE.replace(":quizId", quizInfo.id));
+    navigate(ROUTES.QUIZ_PAGE.replace(":quizId", quizInfo.id), {
+      state: solvedQuiz,
+    });
   };
 
   return (

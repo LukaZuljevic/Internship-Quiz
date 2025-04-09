@@ -12,3 +12,10 @@ export type QuizBasicAttemptInfo = {
   userId: string;
   points: number;
 };
+
+export type QuizAttemptAnswers = {
+  quizId: string;
+  userId: string;
+  points: number;
+  answers: Record<string, Answer>;
+};

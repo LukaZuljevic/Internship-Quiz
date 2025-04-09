@@ -1,12 +1,12 @@
 import { QuizAttempt } from "../types/QuizAttempt";
 import { postQuizAttempt } from "../services/CreateQuizAttemptApi";
 import toast from "react-hot-toast";
-import { CreateUserQuizAttemptResponseDto } from "@internship-quiz/appTypes";
+import { UserQuizAttemptAnswersDto } from "@internship-quiz/appTypes";
 
 type UseCreateUserQuizAttemptReturn = {
   postUserQuizAttemptData: ({
     request,
-  }: PostUserQuizAttemptProps) => Promise<CreateUserQuizAttemptResponseDto>;
+  }: PostUserQuizAttemptProps) => Promise<UserQuizAttemptAnswersDto>;
 };
 
 type PostUserQuizAttemptProps = {

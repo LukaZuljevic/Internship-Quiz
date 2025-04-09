@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { Question } from "../../types/Question";
 import c from "./QuizQuestion.module.css";
 import { Answer } from "../../types/Answer";
@@ -26,6 +26,12 @@ export const QuizQuestion = ({
   const [answer, setAnswer] = useState<Answer>(
     currentAnswer || getDefaultAnswer(question.type)
   );
+
+  useEffect(() => {
+    if (currentAnswer !== undefined) {
+      setAnswer(currentAnswer);
+    }
+  }, [currentAnswer]);
 
   function getDefaultAnswer(type: QuestionType) {
     switch (type) {
