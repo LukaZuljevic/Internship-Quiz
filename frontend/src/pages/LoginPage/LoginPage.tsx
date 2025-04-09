@@ -36,7 +36,6 @@ export const LoginPage = () => {
       }
 
       refreshUserState();
-
       navigate(ROUTES.QUIZZES_PAGE);
 
       setLoginData({

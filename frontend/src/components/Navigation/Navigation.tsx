@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../router/routes";
 import c from "./Navigation.module.css";
+import { LogoutButton } from "../LogoutButton";
 
 export const Navigation = () => {
   const [search, setSearch] = useState<string>("");
@@ -35,6 +36,7 @@ export const Navigation = () => {
       <button onClick={handleButtonClick} className={c.searchButton}>
         Search
       </button>
+      <LogoutButton />
     </div>
   );
 };

@@ -13,7 +13,7 @@ export const PointsLeaderboard = () => {
 
   useEffect(() => {
     fetchAllUserPointsData();
-  }, [isOpen]);
+  }, []);
 
   return (
     <div className={c.pointsLeaderboardContainer}>
