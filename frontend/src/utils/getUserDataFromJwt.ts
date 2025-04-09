@@ -1,5 +1,4 @@
 import { jwtDecode } from "jwt-decode";
-import { FullPayload } from "@internship-quiz/appTypes";
 
 export const getDataFromToken = (field: string) => {
   try {
@@ -10,7 +9,7 @@ export const getDataFromToken = (field: string) => {
       return null;
     }
 
-    const decoded = jwtDecode<FullPayload>(token);
+    const decoded = jwtDecode<any>(token);
 
     return decoded[field] || null;
   } catch (error) {

@@ -2,11 +2,12 @@ import c from "../RegisterPage/RegisterPage.module.css";
 import { useContext, useState } from "react";
 import { ROUTES } from "../../router/routes";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import { FormInput } from "../../components/FormInput";
 import { LoginData } from "../../types/LoginData";
 import { useLogin } from "../../hooks/useLogin";
 import { UserContext } from "../../contexts/UserContext";
+import { formValidation } from "../../utils/formValidation";
+import { loginValidationRules } from "./loginValidationRules";
 
 export const LoginPage = () => {
   const { refreshUserState } = useContext(UserContext);
@@ -18,31 +19,15 @@ export const LoginPage = () => {
   const { userLogin } = useLogin(loginData);
   const navigate = useNavigate();
 
-  const validateForm = (): boolean => {
-    let errorString = "";
-    if (!loginData.email.trim()) {
-      errorString += "Email is required\n";
-    } else if (
-      !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(loginData.email)
-    ) {
-      errorString += "Email is invalid\n";
-    }
-
-    if (!loginData.password.trim()) {
-      errorString += "Password is requred";
-    } else if (loginData.password.length < 4) {
-      errorString += "Password must be at least 4 chars long";
-    }
-
-    if (errorString) toast.error(errorString);
-
-    return errorString === "";
-  };
-
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (validateForm()) {
+    if (
+      formValidation({
+        formData: loginData,
+        validationRules: loginValidationRules,
+      })
+    ) {
       const jwt = await userLogin();
 
       if (!jwt) {
