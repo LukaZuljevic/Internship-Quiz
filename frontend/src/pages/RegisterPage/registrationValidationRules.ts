@@ -1,4 +1,4 @@
-import { EMAIL_REGEX } from "../../constants/regex";
+import { EMAIL_REGEX } from "../../constants";
 import { RegistrationData } from "../../types/RegistrationData";
 import { ValidationRules } from "../../types/ValidationsRules";
 

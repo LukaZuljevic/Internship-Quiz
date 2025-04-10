@@ -1,3 +1,4 @@
+import { Options } from "@internship-quiz/appTypes";
 import { Question } from "../../types/Question";
 import c from "./QuestionWithCheckboxCard.module.css";
 
@@ -12,11 +13,21 @@ export const QuestionWithCheckboxCard = ({
   handleToggleCheckbox,
   isSelected,
 }: QuestionWithCheckboxCardProps) => {
-  const parsedOptions = question.options
+  const parsedOptions: Options = question.options
     ? typeof question.options === "string"
       ? JSON.parse(question.options)
       : question.options
     : null;
+
+  const renderOptionsList = (items: string[]) => (
+    <ul className={c.questionOptions}>
+      {items.map((option: string, index: number) => (
+        <li key={index}>
+          {index + 1}. {option}
+        </li>
+      ))}
+    </ul>
+  );
 
   const renderQuestionContent = () => {
     switch (question.type) {
@@ -46,25 +57,8 @@ export const QuestionWithCheckboxCard = ({
         return (
           <div className={c.questionContent}>
             <p>{question.title}</p>
-            <ul className={c.questionOptions}>
-              {firstMatchOptions.firstArray.map(
-                (option: string, index: number) => (
-                  <li key={index}>
-                    {index + 1}. {option}
-                  </li>
-                )
-              )}
-            </ul>
-
-            <ul className={c.questionOptions}>
-              {secondsMatchOptions.secondArray.map(
-                (option: string, index: number) => (
-                  <li key={index}>
-                    {index + 1}. {option}
-                  </li>
-                )
-              )}
-            </ul>
+            {renderOptionsList(firstMatchOptions.firstArray)}
+            {renderOptionsList(secondsMatchOptions.secondArray)}
           </div>
         );
       default:

@@ -3,6 +3,7 @@ import { QuizBasicAttemptInfo } from "../../types/QuizAttempt";
 import c from "./QuizCard.module.css";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../router/routes";
+import { fallbackImage } from "../../constants";
 
 type QuizCardProps = {
   quizInfo: Quiz;
@@ -29,7 +30,7 @@ export const QuizCard = ({
       onClick={handleCardClick}
     >
       <img
-        src={quizInfo.category.imageUrl ?? ""}
+        src={quizInfo.category.imageUrl || fallbackImage}
         className={c.quizCardImage}
         alt={quizInfo.category.title}
       />

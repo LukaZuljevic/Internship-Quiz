@@ -85,6 +85,7 @@ export const CreateQuizPage = () => {
     );
 
     if (!validateQuizCreation(fullQuizCategory)) return;
+
     try {
       const newQuiz = await createNewQuizData({
         title: quizTitle,
@@ -105,25 +106,19 @@ export const CreateQuizPage = () => {
         toast.error("Failed to add questions to quiz");
         return;
       }
-
       toast.success("Quiz created successfully!");
 
       setQuitTitle("");
+      setSelectedQuestions([]);
+      setCurrentCategory("");
     } catch (error) {
-      console.error(error);
+      toast.error(error as string);
     }
   };
 
   return (
     <div className={c.container}>
-      <div className={c.header}>
-        <p>Create a new quiz!</p>
-        {selectedQuestions.length > 4 && (
-          <button className={c.submitButton} onClick={handleCreateButton}>
-            Create quiz
-          </button>
-        )}
-      </div>
+      <p className={c.header}>Create a new quiz!</p>
 
       <div className={c.questionsContainer}>
         <div className={c.questionList}>
@@ -153,7 +148,13 @@ export const CreateQuizPage = () => {
               currentCategory={currentCategory}
               setCurrentCategory={setCurrentCategory}
             />
+            {selectedQuestions.length > 4 && (
+              <button className={c.submitButton} onClick={handleCreateButton}>
+                Create quiz
+              </button>
+            )}
           </div>
+
           {selectedQuestions.map((question) => (
             <div className={c.questionContainer} key={question.id}>
               <QuestionWithCheckboxCard
