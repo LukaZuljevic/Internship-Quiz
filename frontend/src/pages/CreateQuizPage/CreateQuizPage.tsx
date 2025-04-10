@@ -9,6 +9,7 @@ import { CategoryFilter } from "../../components/CategoryFilter";
 import toast from "react-hot-toast";
 import { useCreateNewQuiz } from "../../hooks/useCreateNewQuiz";
 import { useCreateQuizQuestions } from "../../hooks/useCreateQuizQuestions";
+import { QuestionType } from "@internship-quiz/appTypes";
 
 export const CreateQuizPage = () => {
   const [currentCategory, setCurrentCategory] = useState<string>("");
@@ -46,25 +47,48 @@ export const CreateQuizPage = () => {
     });
   };
 
+  const validateQuizCreation = (
+    fullQuizCategory: Category | undefined
+  ): boolean => {
+    if (!fullQuizCategory) {
+      toast.error("Choose a category for the quiz");
+      return false;
+    }
+
+    if (quizTitle.length < 4) {
+      toast.error("Quiz title needs to be at least 3 chars long");
+      return false;
+    }
+
+    const noOfQuestionTypes = selectedQuestions.reduce<QuestionType[]>(
+      (acc, question) => {
+        const type: QuestionType = question.type;
+        if (!acc.includes(type)) {
+          acc.push(type);
+        }
+        return acc;
+      },
+      []
+    );
+
+    if (noOfQuestionTypes.length < 2) {
+      toast.error("Quiz must contain at least 2 different question types");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleCreateButton = async () => {
     const fullQuizCategory = categories.find(
       (c) => c.title === currentCategory
     );
 
-    if (!fullQuizCategory) {
-      toast.error("Choose a category for the quiz");
-      return;
-    }
-
-    if (quizTitle.length < 4) {
-      toast.error("Quiz title needs to be at least 3 chars long");
-      return;
-    }
-
+    if (!validateQuizCreation(fullQuizCategory)) return;
     try {
       const newQuiz = await createNewQuizData({
         title: quizTitle,
-        categoryId: fullQuizCategory.id,
+        categoryId: fullQuizCategory?.id ?? "",
       });
 
       if (!newQuiz) {
