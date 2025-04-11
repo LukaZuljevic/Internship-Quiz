@@ -1,5 +1,5 @@
 import { QUIZ_QUESTIONS_PATH } from "../constants";
-import { QuizQuestionsResponseDto } from "@internship-quiz/appTypes";
+import { QuizQuestionsResponseDto } from "../types/appGlobalTypes";
 
 export const fetchQuizQuestions = async (
   quizId: string

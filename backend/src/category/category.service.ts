@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { PrismaService } from 'src/prisma.service';
-import { CategoryResponseDto } from '@internship-quiz/appTypes';
+import { CategoryResponseDto } from '../appGlobalTypes';
 
 @Injectable()
 export class CategoryService {

@@ -6,7 +6,7 @@ import { Answer } from "../../types/Answer";
 import { useCreateUserQuizAttempt } from "../../hooks/useCreateUserQuizAttempt";
 import { QuizAttempt, QuizBasicAttemptInfo } from "../../types/QuizAttempt";
 import { UserContext } from "../../contexts/UserContext";
-import { QuestionType } from "@internship-quiz/appTypes";
+import { QuestionType } from "../../types/appGlobalTypes";
 import { QuizAttemptAnswers } from "../../types/QuizAttempt";
 import { useFetchUserQuizAttempt } from "../../hooks/useFetchUserQuizAttempt";
 

@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { registerUser } from "../services/RegisterApi";
 import { RegistrationData } from "../types/RegistrationData";
-import { JwtResponseDto } from "@internship-quiz/app-types";
+import { JwtResponseDto } from "../types/appGlobalTypes";
 
 type UseRegisterReturn = {
   userRegistration: () => Promise<JwtResponseDto>;

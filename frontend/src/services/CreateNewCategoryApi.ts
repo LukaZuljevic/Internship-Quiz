@@ -1,6 +1,6 @@
 import toast from "react-hot-toast";
 import { CATEGORY_PATH } from "../constants";
-import { CategoryResponseDto } from "@internship-quiz/appTypes";
+import { CategoryResponseDto } from "../types/appGlobalTypes";
 
 type CreateNewCategoryProps = {
   title: string;

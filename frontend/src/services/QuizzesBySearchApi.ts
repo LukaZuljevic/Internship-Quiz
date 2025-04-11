@@ -1,4 +1,4 @@
-import { QuizResponseDto } from "@internship-quiz/appTypes";
+import { QuizResponseDto } from "../types/appGlobalTypes";
 import { QUIZ_API_PATH } from "../constants";
 
 export const fetchQuizzesBySearch = async (

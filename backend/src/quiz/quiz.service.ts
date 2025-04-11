@@ -6,7 +6,7 @@ import {
   CreateQuizResponseDto,
   DeleteQuizResponseDto,
   QuizResponseDto,
-} from '@internship-quiz/app-types';
+} from '../appGlobalTypes';
 
 @Injectable()
 export class QuizService {

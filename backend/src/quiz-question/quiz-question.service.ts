@@ -7,7 +7,7 @@ import {
   Options,
   QuestionType,
   QuizQuestionsResponseDto,
-} from '@internship-quiz/appTypes';
+} from '../appGlobalTypes';
 
 @Injectable()
 export class QuizQuestionService {

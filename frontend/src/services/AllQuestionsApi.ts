@@ -1,5 +1,5 @@
 import { QUESTIONS_PATH } from "../constants";
-import { QuestionResponseDto } from "@internship-quiz/appTypes";
+import { QuestionResponseDto } from "../types/appGlobalTypes";
 
 export const fetchAllQuestions = async (): Promise<QuestionResponseDto[]> => {
   const url = `${QUESTIONS_PATH}`;

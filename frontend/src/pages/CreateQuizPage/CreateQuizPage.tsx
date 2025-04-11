@@ -9,7 +9,7 @@ import { CategoryFilter } from "../../components/CategoryFilter";
 import toast from "react-hot-toast";
 import { useCreateNewQuiz } from "../../hooks/useCreateNewQuiz";
 import { useCreateQuizQuestions } from "../../hooks/useCreateQuizQuestions";
-import { QuestionType } from "@internship-quiz/appTypes";
+import { QuestionType } from "../../types/appGlobalTypes";
 
 export const CreateQuizPage = () => {
   const [currentCategory, setCurrentCategory] = useState<string>("");

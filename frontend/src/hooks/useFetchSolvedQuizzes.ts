@@ -1,6 +1,6 @@
 import { QuizBasicAttemptInfo } from "../types/QuizAttempt";
 import { fetchSolvedQuizzes } from "../services/SolvedQuizzesApi";
-import { UserQuizBasicAttemptDto } from "@internship-quiz/appTypes";
+import { UserQuizBasicAttemptResponseDto } from "../types/appGlobalTypes";
 
 type UseFetchSolvedQuizzesReturn = {
   fetchSolvedQuizzesData: (userId: string) => Promise<void>;
@@ -17,12 +17,11 @@ export const useFetchSolvedQuizzes = ({
 }: UseFetchSolvedQuizzesProps): UseFetchSolvedQuizzesReturn => {
   const fetchSolvedQuizzesData = async () => {
     try {
-      const fetchedData: UserQuizBasicAttemptDto[] = await fetchSolvedQuizzes(
-        userId
-      );
+      const fetchedData: UserQuizBasicAttemptResponseDto[] =
+        await fetchSolvedQuizzes(userId);
 
       const mappedData: QuizBasicAttemptInfo[] = fetchedData.map(
-        (item: UserQuizBasicAttemptDto) => {
+        (item: UserQuizBasicAttemptResponseDto) => {
           return {
             quizId: item.quiz.id,
             userId: item.user.id,

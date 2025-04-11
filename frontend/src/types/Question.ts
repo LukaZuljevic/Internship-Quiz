@@ -2,7 +2,7 @@ import {
   QuestionType,
   Options,
   CorrectAnswer,
-} from "@internship-quiz/app-types";
+} from "./appGlobalTypes/question";
 
 export type Question = {
   id: string;

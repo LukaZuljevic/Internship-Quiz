@@ -11,7 +11,7 @@ import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { AdminAuthGuard } from 'src/user/admin-auth.guard';
 import { UserAuthGuard } from 'src/user/user-auth.guard';
-import { CategoryResponseDto } from '@internship-quiz/appTypes';
+import { CategoryResponseDto } from '../appGlobalTypes';
 
 @Controller('category')
 export class CategoryController {

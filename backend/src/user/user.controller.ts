@@ -4,10 +4,7 @@ import { LoginDto } from './dto/login.dto';
 import { UserAuthGuard } from './user-auth.guard';
 import { UpdatePointsDto } from './dto/update-points.dto';
 import { RegisterDto } from './dto/register.dto';
-import {
-  JwtResponseDto,
-  UserPointsResponseDto,
-} from '@internship-quiz/appTypes';
+import { JwtResponseDto, UserPointsResponseDto } from '../appGlobalTypes';
 
 @Controller('user')
 export class UserController {

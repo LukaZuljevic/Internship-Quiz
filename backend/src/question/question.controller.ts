@@ -15,7 +15,7 @@ import { UserAuthGuard } from 'src/user/user-auth.guard';
 import {
   DeleteQuestionResponseDto,
   QuestionResponseDto,
-} from '@internship-quiz/appTypes';
+} from '../appGlobalTypes';
 
 @Controller('question')
 export class QuestionController {

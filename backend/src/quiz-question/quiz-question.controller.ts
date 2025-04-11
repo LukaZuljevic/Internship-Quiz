@@ -6,7 +6,7 @@ import { UserAuthGuard } from 'src/user/user-auth.guard';
 import {
   CreateQuizQuestionsResponseDto,
   QuizQuestionsResponseDto,
-} from '@internship-quiz/appTypes';
+} from '../appGlobalTypes';
 
 @Controller('quiz-question')
 export class QuizQuestionController {

@@ -1,10 +1,10 @@
 import { QUIZ_USER_ANSWERS } from "../constants";
 import { QuizAttempt } from "../types/QuizAttempt";
-import { CreateUserQuizAttemptResponseDto } from "@internship-quiz/appTypes";
+import { UserQuizAttemptAnswersResponseDto } from "../types/appGlobalTypes";
 
 export const postQuizAttempt = async (
   request: QuizAttempt
-): Promise<CreateUserQuizAttemptResponseDto> => {
+): Promise<UserQuizAttemptAnswersResponseDto> => {
   const url = `${QUIZ_USER_ANSWERS}`;
   const token = JSON.parse(localStorage.getItem("jwt") || "null");
 

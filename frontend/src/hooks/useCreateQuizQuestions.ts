@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { createQuizQuestions } from "../services/NewQuizQuestionsApi";
 import { Question } from "../types/Question";
-import { QuizQuestionsResponseDto } from "@internship-quiz/appTypes";
+import { QuizQuestionsResponseDto } from "../types/appGlobalTypes";
 
 type UseCreateQuizQuestionsReturn = {
   createQuizQuestionsData: (

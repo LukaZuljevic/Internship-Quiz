@@ -1,4 +1,4 @@
-import { Options } from "@internship-quiz/appTypes";
+import { Options } from "../../types/appGlobalTypes";
 import { Question } from "../../types/Question";
 import c from "./QuestionWithCheckboxCard.module.css";
 

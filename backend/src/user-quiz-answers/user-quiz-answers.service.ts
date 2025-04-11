@@ -2,9 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserQuizAnswerDto } from './dto/create-user-quiz-answer.dto';
 import { PrismaService } from 'src/prisma.service';
 import {
-  UserQuizBasicAttemptDto,
-  UserQuizAttemptAnswersDto,
-} from '@internship-quiz/appTypes';
+  UserQuizBasicAttemptResponseDto,
+  UserQuizAttemptAnswersResponseDto,
+} from '../appGlobalTypes';
 
 @Injectable()
 export class UserQuizAnswersService {
@@ -12,7 +12,7 @@ export class UserQuizAnswersService {
 
   async create(
     createUserQuizAnswerDto: CreateUserQuizAnswerDto,
-  ): Promise<UserQuizAttemptAnswersDto> {
+  ): Promise<UserQuizAttemptAnswersResponseDto> {
     const newUserQuizAnswers = await this.prisma.userQuizAnswers.create({
       data: createUserQuizAnswerDto,
       select: {
@@ -40,10 +40,10 @@ export class UserQuizAnswersService {
       },
     });
 
-    return newUserQuizAnswers as UserQuizAttemptAnswersDto;
+    return newUserQuizAnswers as UserQuizAttemptAnswersResponseDto;
   }
 
-  async findAllByUserId(userId: string): Promise<UserQuizBasicAttemptDto[]> {
+  async findAllByUserId(userId: string): Promise<UserQuizBasicAttemptResponseDto[]> {
     const answers = await this.prisma.userQuizAnswers.findMany({
       where: {
         userId,
@@ -69,7 +69,7 @@ export class UserQuizAnswersService {
   async findByQuizAndUserId(
     quizId: string,
     userId: string,
-  ): Promise<UserQuizAttemptAnswersDto> {
+  ): Promise<UserQuizAttemptAnswersResponseDto> {
     const attempt = await this.prisma.userQuizAnswers.findFirst({
       where: {
         quizId,
@@ -94,6 +94,6 @@ export class UserQuizAnswersService {
     if (!attempt)
       throw new NotFoundException('Answers for that quiz not found');
 
-    return attempt as UserQuizAttemptAnswersDto;
+    return attempt as UserQuizAttemptAnswersResponseDto;
   }
 }

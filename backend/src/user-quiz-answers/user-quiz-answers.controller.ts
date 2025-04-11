@@ -3,9 +3,9 @@ import { UserQuizAnswersService } from './user-quiz-answers.service';
 import { CreateUserQuizAnswerDto } from './dto/create-user-quiz-answer.dto';
 import { UserAuthGuard } from 'src/user/user-auth.guard';
 import {
-  UserQuizBasicAttemptDto,
-  UserQuizAttemptAnswersDto,
-} from '@internship-quiz/appTypes';
+  UserQuizBasicAttemptResponseDto,
+  UserQuizAttemptAnswersResponseDto,
+} from '../appGlobalTypes';
 
 @Controller('user-quiz-answers')
 export class UserQuizAnswersController {
@@ -16,7 +16,7 @@ export class UserQuizAnswersController {
   @Post()
   async create(
     @Body() createUserQuizAnswerDto: CreateUserQuizAnswerDto,
-  ): Promise<UserQuizAttemptAnswersDto> {
+  ): Promise<UserQuizAttemptAnswersResponseDto> {
     const newUserQuizAnswers = await this.userQuizAnswersService.create(
       createUserQuizAnswerDto,
     );
@@ -28,7 +28,7 @@ export class UserQuizAnswersController {
   @UseGuards(UserAuthGuard)
   async findAllByUserId(
     @Param('userId') userId: string,
-  ): Promise<UserQuizBasicAttemptDto[]> {
+  ): Promise<UserQuizBasicAttemptResponseDto[]> {
     return this.userQuizAnswersService.findAllByUserId(userId);
   }
 
@@ -37,7 +37,7 @@ export class UserQuizAnswersController {
   async findByQuizAndUser(
     @Param('quizId') quizId: string,
     @Param('userId') userId: string,
-  ): Promise<UserQuizBasicAttemptDto> {
+  ): Promise<UserQuizAttemptAnswersResponseDto> {
     return this.userQuizAnswersService.findByQuizAndUserId(quizId, userId);
   }
 }

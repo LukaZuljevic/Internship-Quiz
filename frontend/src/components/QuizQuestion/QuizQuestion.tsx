@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Question } from "../../types/Question";
 import c from "./QuizQuestion.module.css";
 import { Answer } from "../../types/Answer";
-import { QuestionType } from "@internship-quiz/appTypes";
+import { QuestionType } from "../../types/appGlobalTypes";
 
 type QuizQuestionProps = {
   question: Question;

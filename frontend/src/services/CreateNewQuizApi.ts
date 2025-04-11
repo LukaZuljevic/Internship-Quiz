@@ -1,4 +1,4 @@
-import { CreateQuizResponseDto } from "@internship-quiz/app-types";
+import { CreateQuizResponseDto } from "../types/appGlobalTypes";
 import { QUIZ_API_PATH } from "../constants";
 import { NewQuizRequest } from "../types/NewQuizRequest";
 

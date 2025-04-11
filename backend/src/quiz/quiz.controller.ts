@@ -17,7 +17,7 @@ import {
   CreateQuizResponseDto,
   DeleteQuizResponseDto,
   QuizResponseDto,
-} from '@internship-quiz/appTypes';
+} from '../appGlobalTypes';
 
 @Controller('quiz')
 export class QuizController {
