@@ -11,7 +11,8 @@ const loginUser = (loginData: LoginData) => {
 
 export const useLogin = (
   refreshUserState: () => void,
-  navigate: () => void
+  navigate: () => void,
+  clearForm: () => void
 ) => {
   return useMutation({
     mutationKey: ["login"],
@@ -19,6 +20,7 @@ export const useLogin = (
     onSuccess: (data: JwtResponseDto) => {
       localStorage.setItem("jwt", JSON.stringify(data.token));
       refreshUserState();
+      clearForm();
       toast.success("Login successful!");
       navigate();
     },

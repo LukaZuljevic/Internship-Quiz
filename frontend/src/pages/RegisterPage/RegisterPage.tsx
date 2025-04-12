@@ -19,9 +19,18 @@ export const RegisterPage = () => {
 
   const navigate = useNavigate();
 
-  const { mutate: registerUser, isPending } = useRegister(() => {
+  const clearForm = () =>
+    setRegistrationData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      repeatedPassword: "",
+    });
+
+  const { mutate: registerUser } = useRegister(() => {
     navigate(ROUTES.LOGIN);
-  });
+  }, clearForm);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,14 +42,6 @@ export const RegisterPage = () => {
       })
     ) {
       registerUser(registrationData);
-
-      setRegistrationData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        repeatedPassword: "",
-      });
     }
   };
 
@@ -51,9 +52,7 @@ export const RegisterPage = () => {
     }));
   };
 
-  return isPending ? (
-    <h1>Registering...</h1>
-  ) : (
+  return (
     <div className={c.registrationContainer}>
       <form className={c.registrationForm} onSubmit={handleFormSubmit}>
         <FormInput
@@ -98,9 +97,11 @@ export const RegisterPage = () => {
           }
         />
 
-        <button type="submit">Register</button>
+        <button type="submit" className={c.submitButton}>
+          Register
+        </button>
 
-        <a href={ROUTES.LOGIN}>
+        <a href={ROUTES.LOGIN} className={c.loginLink}>
           Already have an account? <span>Login here</span>
         </a>
       </form>

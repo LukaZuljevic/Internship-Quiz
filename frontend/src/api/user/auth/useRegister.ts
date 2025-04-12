@@ -12,13 +12,14 @@ const registerUser = (registrationData: RegistrationData) => {
   );
 };
 
-export const useRegister = (navigate: () => void) => {
+export const useRegister = (navigate: () => void, clearForm: () => void) => {
   return useMutation({
     mutationKey: ["register"],
     mutationFn: registerUser,
     onSuccess: (data: JwtResponseDto) => {
       localStorage.setItem("jwt", JSON.stringify(data.token));
       toast.success("Registration successful!");
+      clearForm();
       navigate();
     },
     onError: (error: string) => {

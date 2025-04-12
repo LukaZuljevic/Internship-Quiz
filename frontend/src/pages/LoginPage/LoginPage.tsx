@@ -17,11 +17,19 @@ export const LoginPage = () => {
   });
 
   const navigate = useNavigate();
-  const { mutate: loginUser, isPending } = useLogin(
+  const clearForm = () => {
+    setLoginData({
+      email: "",
+      password: "",
+    });
+  };
+
+  const { mutate: loginUser } = useLogin(
     () => refreshUserState(),
     () => {
       navigate(ROUTES.QUIZZES_PAGE);
-    }
+    },
+    clearForm
   );
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,11 +42,6 @@ export const LoginPage = () => {
       })
     ) {
       loginUser(loginData);
-
-      setLoginData({
-        email: "",
-        password: "",
-      });
     }
   };
 
@@ -49,9 +52,7 @@ export const LoginPage = () => {
     }));
   };
 
-  return isPending ? (
-    <h1>Logging in...</h1>
-  ) : (
+  return (
     <div className={c.registrationContainer}>
       <form className={c.registrationForm} onSubmit={handleFormSubmit}>
         <FormInput
@@ -70,9 +71,11 @@ export const LoginPage = () => {
           onChange={(e) => handleInputChange("password", e.target.value)}
         />
 
-        <button type="submit">Login</button>
+        <button type="submit" className={c.submitButton}>
+          Login
+        </button>
 
-        <a href={ROUTES.REGISTER}>
+        <a href={ROUTES.REGISTER} className={c.loginLink}>
           Don't have an account? <span>Register here</span>
         </a>
       </form>
