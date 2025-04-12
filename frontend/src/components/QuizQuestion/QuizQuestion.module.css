@@ -1,89 +1,130 @@
+.question {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.questionTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 12px 0px;
+}
+
 .textInput,
 .numberInput {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  width: 100%;
+  padding: 8px;
+  border: 2px solid rgb(229, 231, 235);
+  border-radius: 12px;
   font-size: 16px;
-  margin-bottom: 16px;
+  transition: 0.25s ease-in-out;
 }
 
-.textInput {
-  width: 400px;
-}
-
-.numberInput {
-  width: 100px;
+.textInput:focus,
+.numberInput:focus {
+  border-color: rgb(79, 70, 229);
+  outline: none;
 }
 
 .radioQuestion {
   display: flex;
-  align-items: center;
-  gap: 32px;
-  margin-bottom: 16px;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .radioOption {
   display: flex;
   align-items: center;
+  gap: 8px;
+}
+
+.radioLabel {
+  font-size: 16px;
 }
 
 .matchQuestion {
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
 }
 
 .matchInput {
-  width: 200px;
-  padding: 5px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  margin-left: 32px;
+  padding: 8px 20px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 2px solid rgb(229, 231, 235);
+}
+
+.matchInput:focus {
+  border-color: rgb(79, 70, 229);
+  outline: none;
 }
 
 .orderQuestion {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 16px;
+  gap: 12px;
 }
 
 .orderItem {
   display: flex;
-  gap: 10px;
   align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  margin: 0 auto;
+  gap: 16px;
+  padding: 8px;
+  background-color: rgb(243, 244, 246);
+  border-radius: 12px;
 }
 
 .orderButton {
-  background-color: rgb(34, 141, 230);
+  background-color: rgb(79, 70, 229);
   color: white;
-  cursor: pointer;
-  padding: 5px 3px;
   border: none;
-  border-radius: 8px;
-}
-
-.questionTitle {
-  font-size: 18px;
-  margin-bottom: 16px;
-}
-
-.radioLabel {
+  padding: 4px 8px;
+  border-radius: 12px;
+  cursor: pointer;
   font-size: 16px;
-  margin-left: 5px;
+  transition: 0.25s ease-in-out;
 }
 
-.matchLabel {
-  font-size: 16px;
-  font-weight: bold;
+.orderButton:hover {
+  background-color: rgb(67, 56, 202);
+}
+
+.orderButton:disabled {
+  background-color: rgb(209, 213, 219);
 }
 
 .correct {
-  color: green;
-  font-size: 20px;
+  background-color: rgb(187, 247, 208);
+  border: 2px solid rgb(22, 163, 74);
+  color: rgb(22, 163, 74);
+  font-weight: 600;
+  padding: 8px;
+  border-radius: 12px;
+  width: 120px;
+  text-align: center;
+  margin: 12px 0px;
 }
 
 .incorrect {
-  color: red;
-  font-size: 20px;
+  background-color: rgb(254, 202, 202);
+  border: 2px solid rgb(220, 38, 38);
+  color: rgb(220, 38, 38);
+  font-weight: 600;
+  padding: 8px;
+  border-radius: 12px;
+  width: 120px;
+  text-align: center;
+  margin: 12px 0px;
+}
+
+hr {
+  margin: 32px 0px;
 }

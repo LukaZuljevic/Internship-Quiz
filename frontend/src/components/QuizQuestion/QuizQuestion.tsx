@@ -101,7 +101,9 @@ export const QuizQuestion = ({
   };
 
   useEffect(() => {
-    onAnswerChange(answer);
+    if (currentAnswer !== answer) {
+      onAnswerChange(answer);
+    }
   }, [answer]);
 
   const renderFieldQuestion = () => {
@@ -211,13 +213,14 @@ export const QuizQuestion = ({
   return (
     <>
       <h3 className={c.questionTitle}>{question.title}</h3>
-      <div>{renderQuestionOptions()}</div>
+      <div className={c.question}>{renderQuestionOptions()}</div>
       {isCorrect !== undefined &&
         (isCorrect ? (
           <p className={c.correct}>Correct!</p>
         ) : (
           <p className={c.incorrect}>Incorect!</p>
         ))}
+      <hr></hr>
     </>
   );
 };

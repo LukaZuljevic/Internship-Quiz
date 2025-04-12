@@ -3,6 +3,7 @@ import { useQuizQuestions } from "../../api/quiz-questions/useQuizQuestions";
 import { QuizSolver } from "../../components/QuizSolver";
 import { NotFoundPage } from "../NotFoundPage";
 import { QuizBasicAttemptInfo } from "../../types/QuizAttempt";
+import c from "./QuizPage.module.css";
 
 export const QuizPage = () => {
   const { quizId } = useParams<{ quizId: string }>();
@@ -15,6 +16,11 @@ export const QuizPage = () => {
   if (!quizQuestions || quizQuestions.length < 1) return <NotFoundPage />;
 
   return (
-    <QuizSolver quizQuestions={quizQuestions} solvedQuizData={solvedQuizData} />
+    <div className={c.quizPage}>
+      <QuizSolver
+        quizQuestions={quizQuestions}
+        solvedQuizData={solvedQuizData}
+      />
+    </div>
   );
 };

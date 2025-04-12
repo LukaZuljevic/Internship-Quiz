@@ -1,7 +1,6 @@
 import c from "./QuizzesPage.module.css";
 import { useSearchQuizzes } from "../../api/quiz/useSearchQuizzes";
-import { useState, useEffect, useContext } from "react";
-import { Quiz } from "../../types/Quiz";
+import { useState, useContext, useMemo } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { QuizList } from "../../components/QuizList";
 import { CategoryFilter } from "../../components/CategoryFilter";
@@ -11,6 +10,7 @@ import { PointsLeaderboard } from "../../components/PointsLeadeboard";
 import { ROUTES } from "../../router/routes";
 import { UserContext } from "../../contexts/UserContext";
 import { useAllSolvedQuizzes } from "../../api/quiz-attempt/useAllSolvedQuizzes";
+import { Quiz } from "../../types/Quiz";
 
 export const QuizzesPage = () => {
   const { email, role, userId } = useContext(UserContext);
@@ -24,14 +24,11 @@ export const QuizzesPage = () => {
   const { data: solvedQuizzes = [] } = useAllSolvedQuizzes(userId);
 
   const [currentCategory, setCurrentCategory] = useState<string>("");
-  const [filteredQuizzes, setFilteredQuizzes] = useState<Quiz[]>([]);
 
-  useEffect(() => {
-    setFilteredQuizzes(
-      currentCategory
-        ? quizzes.filter((quiz) => quiz.category.title === currentCategory)
-        : quizzes
-    );
+  const filteredQuizzes: Quiz[] = useMemo(() => {
+    return currentCategory
+      ? quizzes.filter((quiz) => quiz.category.title === currentCategory)
+      : quizzes;
   }, [currentCategory, quizzes]);
 
   return (
