@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { RegistrationData } from "../../types/RegistrationData";
 import { FormInput } from "../../components/FormInput";
-import { useRegister } from "../../hooks/useRegister";
-import toast from "react-hot-toast";
+import { useRegister } from "../../api/user/auth/useRegister";
 import c from "./RegisterPage.module.css";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../router/routes";
@@ -18,8 +17,11 @@ export const RegisterPage = () => {
     repeatedPassword: "",
   });
 
-  const { userRegistration } = useRegister(registrationData);
   const navigate = useNavigate();
+
+  const { mutate: registerUser, isPending } = useRegister(() => {
+    navigate(ROUTES.LOGIN);
+  });
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,9 +32,7 @@ export const RegisterPage = () => {
         validationRules: registrationValidationRules,
       })
     ) {
-      await userRegistration();
-      toast.success("Registration successful!");
-      navigate(ROUTES.LOGIN);
+      registerUser(registrationData);
 
       setRegistrationData({
         firstName: "",
@@ -51,7 +51,9 @@ export const RegisterPage = () => {
     }));
   };
 
-  return (
+  return isPending ? (
+    <h1>Registering...</h1>
+  ) : (
     <div className={c.registrationContainer}>
       <form className={c.registrationForm} onSubmit={handleFormSubmit}>
         <FormInput

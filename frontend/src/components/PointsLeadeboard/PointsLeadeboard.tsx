@@ -1,19 +1,12 @@
-import { useState, useEffect } from "react";
-import { useFetchAllUserPoints } from "../../hooks/useFetchAllUserPoints";
+import { useState } from "react";
+import { useUserPoints } from "../../api/user/useUserPoints";
 import c from "./PointsLeadeboard.module.css";
 import { LeadeboardParticipant } from "../../types/LeadeboardParticipant";
 
 export const PointsLeaderboard = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [leaderboardData, setLeaderboardData] = useState<
-    LeadeboardParticipant[]
-  >([]);
 
-  const { fetchAllUserPointsData } = useFetchAllUserPoints(setLeaderboardData);
-
-  useEffect(() => {
-    fetchAllUserPointsData();
-  }, []);
+  const { data: leaderboardData } = useUserPoints();
 
   return (
     <div className={c.pointsLeaderboardContainer}>
@@ -29,12 +22,14 @@ export const PointsLeaderboard = () => {
           <div className={c.leaderboardCard}>
             <h2>Points leaderboard</h2>
             <ul>
-              {leaderboardData.map((user, index) => (
-                <li key={user.id}>
-                  {index + 1}. {user.firstName.concat(" ", user.lastName)}-
-                  {user.totalPoints} pts
-                </li>
-              ))}
+              {leaderboardData?.map(
+                (user: LeadeboardParticipant, index: number) => (
+                  <li key={user.id}>
+                    {index + 1}. {user.firstName.concat(" ", user.lastName)}-
+                    {user.totalPoints} pts
+                  </li>
+                )
+              )}
             </ul>
             <button className={c.closeButton} onClick={() => setIsOpen(false)}>
               Close

@@ -3,12 +3,11 @@ import c from "./QuizSolver.module.css";
 import { QuizQuestion } from "../QuizQuestion";
 import { useContext, useEffect, useState } from "react";
 import { Answer } from "../../types/Answer";
-import { useCreateUserQuizAttempt } from "../../hooks/useCreateUserQuizAttempt";
+import { useCreateQuizAttempt } from "../../api/quiz-attempt/useCreateQuizAttempt";
 import { QuizAttempt, QuizBasicAttemptInfo } from "../../types/QuizAttempt";
 import { UserContext } from "../../contexts/UserContext";
 import { QuestionType } from "../../types/appGlobalTypes";
-import { QuizAttemptAnswers } from "../../types/QuizAttempt";
-import { useFetchUserQuizAttempt } from "../../hooks/useFetchUserQuizAttempt";
+import { useQuizAttempt } from "../../api/quiz-attempt/useQuizAttempt";
 
 type QuizSolverProps = {
   quizQuestions: QuizQuestionType[];
@@ -19,24 +18,17 @@ export const QuizSolver = ({
   quizQuestions,
   solvedQuizData,
 }: QuizSolverProps) => {
+  const { userId } = useContext(UserContext);
+
   const [answers, setAnswers] = useState<Record<string, Answer>>({});
   const [result, setResult] = useState<Record<string, boolean>>({});
   const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
 
-  const { userId } = useContext(UserContext);
-  const [previousAnswers, setPreviousAnswers] =
-    useState<QuizAttemptAnswers | null>(null);
-  const { fetchUserQuizAttemptData } = useFetchUserQuizAttempt({
-    setData: setPreviousAnswers,
+  const { data: previousAnswers } = useQuizAttempt(
     userId,
-    quizId: solvedQuizData?.quizId || "",
-  });
-
-  const { postUserQuizAttemptData } = useCreateUserQuizAttempt();
-
-  useEffect(() => {
-    if (solvedQuizData) fetchUserQuizAttemptData(userId, solvedQuizData.quizId);
-  }, []);
+    solvedQuizData?.quizId || ""
+  );
+  const { mutate: createQuizAttempt } = useCreateQuizAttempt();
 
   useEffect(() => {
     if (previousAnswers) {
@@ -102,7 +94,7 @@ export const QuizSolver = ({
       points: calculatedScore,
     };
 
-    postUserQuizAttemptData({ request: quizAttemptRequest });
+    createQuizAttempt(quizAttemptRequest);
 
     setResult(newResults);
     setIsSubmitDisabled(true);

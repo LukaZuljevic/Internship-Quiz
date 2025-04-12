@@ -1,17 +1,16 @@
 import c from "./QuizzesPage.module.css";
-import { useFetchQuizzesBySearch } from "../../hooks/useFetchQuizzesBySearch";
+import { useSearchQuizzes } from "../../api/quiz/useSearchQuizzes";
 import { useState, useEffect, useContext } from "react";
 import { Quiz } from "../../types/Quiz";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { QuizList } from "../../components/QuizList";
 import { CategoryFilter } from "../../components/CategoryFilter";
-import { useFetchUserPoints } from "../../hooks/useFetchUserPoints";
+import { useUserPointsByEmail } from "../../api/user/useUserPointsByEmail";
 import { AddNewCategory } from "../../components/AddNewCategory";
 import { PointsLeaderboard } from "../../components/PointsLeadeboard";
 import { ROUTES } from "../../router/routes";
 import { UserContext } from "../../contexts/UserContext";
-import { useFetchSolvedQuizzes } from "../../hooks/useFetchSolvedQuizzes";
-import { QuizBasicAttemptInfo } from "../../types/QuizAttempt";
+import { useAllSolvedQuizzes } from "../../api/quiz-attempt/useAllSolvedQuizzes";
 
 export const QuizzesPage = () => {
   const { email, role, userId } = useContext(UserContext);
@@ -20,42 +19,12 @@ export const QuizzesPage = () => {
   const [searchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
 
-  const [quizzes, setQuizzes] = useState<Quiz[]>([]);
-  const { fetchQuizzesBySearchData } = useFetchQuizzesBySearch({
-    setData: setQuizzes,
-    search,
-  });
+  const { data: quizzes = [] } = useSearchQuizzes(search);
+  const { data: userPoints } = useUserPointsByEmail(email);
+  const { data: solvedQuizzes = [] } = useAllSolvedQuizzes(userId);
 
   const [currentCategory, setCurrentCategory] = useState<string>("");
   const [filteredQuizzes, setFilteredQuizzes] = useState<Quiz[]>([]);
-
-  const [totalPoints, setTotalPoints] = useState<number>();
-  const { fetchUserPointsData } = useFetchUserPoints(setTotalPoints, email);
-
-  const [solvedQuizzes, setSolvedQuizzes] = useState<QuizBasicAttemptInfo[]>(
-    []
-  );
-  const { fetchSolvedQuizzesData } = useFetchSolvedQuizzes({
-    setData: setSolvedQuizzes,
-    userId,
-  });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchQuizzesBySearchData(search);
-      await fetchSolvedQuizzesData(userId);
-    };
-
-    fetchData();
-  }, [search]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchUserPointsData();
-    };
-
-    fetchData();
-  }, []);
 
   useEffect(() => {
     setFilteredQuizzes(
@@ -84,7 +53,7 @@ export const QuizzesPage = () => {
           currentCategory={currentCategory}
           setCurrentCategory={setCurrentCategory}
         />
-        <h3>TOTAL POINTS: {totalPoints}</h3>
+        <h3>TOTAL POINTS: {userPoints?.totalPoints}</h3>
       </div>
 
       {filteredQuizzes.length > 0 ? (

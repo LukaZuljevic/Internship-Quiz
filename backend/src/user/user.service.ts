@@ -59,12 +59,12 @@ export class UserService {
       where: { email: LoginDto.email },
     });
 
-    if (!oldUser) throw new UnauthorizedException('Invalid email or password');
+    const isValid =
+      oldUser && (await compare(LoginDto.password, oldUser.password));
 
-    const passwordMatch = await compare(LoginDto.password, oldUser.password);
-
-    if (!passwordMatch)
+    if (!isValid) {
       throw new UnauthorizedException('Invalid email or password');
+    }
 
     const payload: Payload = {
       email: oldUser.email,

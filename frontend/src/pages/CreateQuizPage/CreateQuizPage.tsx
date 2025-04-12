@@ -1,37 +1,30 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Question } from "../../types/Question";
-import { useFetchAllQuestions } from "../../hooks/useFetchAllQuestions";
+import { useAllQuestions } from "../../api/question/useAllQuestions";
 import { QuestionWithCheckboxCard } from "../../components/QuestionWithCheckboxCard";
 import c from "./CreateQuizPage.module.css";
 import { Category } from "../../types/Category";
-import { useFetchAllCategories } from "../../hooks/useFetchAllCategories";
+import { useAllCategories } from "../../api/category/useAllCategories";
 import { CategoryFilter } from "../../components/CategoryFilter";
 import toast from "react-hot-toast";
-import { useCreateNewQuiz } from "../../hooks/useCreateNewQuiz";
-import { useCreateQuizQuestions } from "../../hooks/useCreateQuizQuestions";
-import { QuestionType } from "../../types/appGlobalTypes";
+import { useCreateQuiz } from "../../api/quiz/useCreateQuiz";
+import { useCreateQuizQuestions } from "../../api/quiz-questions/useCreateQuizQuestions";
+import {
+  CreateQuizResponseDto,
+  QuestionType,
+} from "../../types/appGlobalTypes";
 
 export const CreateQuizPage = () => {
   const [currentCategory, setCurrentCategory] = useState<string>("");
-  const [categories, setCategories] = useState<Category[]>([]);
-  const { fetchAllCategoriesData } = useFetchAllCategories(setCategories);
+  const { data: categories } = useAllCategories();
 
-  const [questions, setQuestions] = useState<Question[]>([]);
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
-  const { fetchAllQuestionsData } = useFetchAllQuestions(setQuestions);
+  const { data: questions } = useAllQuestions();
 
   const [quizTitle, setQuitTitle] = useState<string>("");
 
-  const { createNewQuizData } = useCreateNewQuiz();
-  const { createQuizQuestionsData } = useCreateQuizQuestions();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchAllQuestionsData();
-      await fetchAllCategoriesData();
-    };
-    fetchData();
-  }, []);
+  const { mutate: createNewQuiz } = useCreateQuiz();
+  const { mutate: createQuizQuestions } = useCreateQuizQuestions();
 
   const handleToggleCheckbox = (question: Question) => {
     const isSelectedAlready = selectedQuestions.some(
@@ -80,40 +73,39 @@ export const CreateQuizPage = () => {
   };
 
   const handleCreateButton = async () => {
-    const fullQuizCategory = categories.find(
-      (c) => c.title === currentCategory
+    const fullQuizCategory = categories?.find(
+      (c: Category) => c.title === currentCategory
     );
 
     if (!validateQuizCreation(fullQuizCategory)) return;
 
-    try {
-      const newQuiz = await createNewQuizData({
+    createNewQuiz(
+      {
         title: quizTitle,
         categoryId: fullQuizCategory?.id ?? "",
-      });
-
-      if (!newQuiz) {
-        toast.error("Quiz creation failed");
-        return;
+      },
+      {
+        onSuccess: (newQuiz: CreateQuizResponseDto) => {
+          createQuizQuestions(
+            { quizId: newQuiz.id, questions: selectedQuestions },
+            {
+              onSuccess: () => {
+                toast.success("Quiz created successfully!");
+                setQuitTitle("");
+                setSelectedQuestions([]);
+                setCurrentCategory("");
+              },
+              onError: () => {
+                toast.error("Failed to add questions to quiz");
+              },
+            }
+          );
+        },
+        onError: () => {
+          toast.error("Failed to create quiz");
+        },
       }
-
-      const results = await createQuizQuestionsData(
-        newQuiz.id,
-        selectedQuestions
-      );
-
-      if (!results) {
-        toast.error("Failed to add questions to quiz");
-        return;
-      }
-      toast.success("Quiz created successfully!");
-
-      setQuitTitle("");
-      setSelectedQuestions([]);
-      setCurrentCategory("");
-    } catch (error) {
-      toast.error(error as string);
-    }
+    );
   };
 
   return (
@@ -123,7 +115,7 @@ export const CreateQuizPage = () => {
       <div className={c.questionsContainer}>
         <div className={c.questionList}>
           <h1>All question</h1>
-          {questions.map((question) => (
+          {questions?.map((question) => (
             <div className={c.questionContainer} key={question.id}>
               <QuestionWithCheckboxCard
                 question={question}

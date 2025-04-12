@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
 import { Category } from "../../types/Category";
-import { useFetchAllCategories } from "../../hooks/useFetchAllCategories";
+import { useAllCategories } from "../../api/category/useAllCategories";
 import c from "./CategoryFilter.module.css";
 
 interface CategoryFilterProps {
@@ -12,16 +11,7 @@ export const CategoryFilter = ({
   currentCategory,
   setCurrentCategory,
 }: CategoryFilterProps) => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const { fetchAllCategoriesData } = useFetchAllCategories(setCategories);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchAllCategoriesData();
-    };
-
-    fetchData();
-  }, [categories]);
+  const { data: categories } = useAllCategories();
 
   return (
     <select
@@ -30,8 +20,8 @@ export const CategoryFilter = ({
       className={c.categoryFilter}
     >
       <option value="">Any category</option>
-      {categories.map((category: Category) => (
-        <option key={category.imageUrl} value={category.title}>
+      {categories?.map((category: Category, index: number) => (
+        <option key={index} value={category.title}>
           {category.title}
         </option>
       ))}

@@ -37,7 +37,7 @@ export class UserQuizAnswersController {
   async findByQuizAndUser(
     @Param('quizId') quizId: string,
     @Param('userId') userId: string,
-  ): Promise<UserQuizAttemptAnswersResponseDto> {
+  ): Promise<UserQuizAttemptAnswersResponseDto | null> {
     return this.userQuizAnswersService.findByQuizAndUserId(quizId, userId);
   }
 }

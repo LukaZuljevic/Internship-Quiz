@@ -1,7 +1,5 @@
 import { useLocation, useParams } from "react-router-dom";
-import { useFetchQuizQuestions } from "../../hooks/useFetchQuizQuestions";
-import { useEffect, useState } from "react";
-import { QuizQuestion } from "../../types/Question";
+import { useQuizQuestions } from "../../api/quiz-questions/useQuizQuestions";
 import { QuizSolver } from "../../components/QuizSolver";
 import { NotFoundPage } from "../NotFoundPage";
 import { QuizBasicAttemptInfo } from "../../types/QuizAttempt";
@@ -11,27 +9,10 @@ export const QuizPage = () => {
   const location = useLocation();
   const solvedQuizData: QuizBasicAttemptInfo | undefined = location.state;
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
-
-  const { fetchQuizQuestionsData } = useFetchQuizQuestions({
-    setData: (data) => {
-      setQuizQuestions(data);
-      setIsLoading(false);
-    },
-    quizId: quizId || "",
-  });
-
-  useEffect(() => {
-    if (quizId) {
-      setIsLoading(true);
-      fetchQuizQuestionsData(quizId);
-    }
-  }, [quizId]);
-
-  if (quizQuestions.length < 1) return <NotFoundPage />;
+  const { data: quizQuestions, isLoading } = useQuizQuestions(quizId);
 
   if (isLoading) return <h1>Loading quiz...</h1>;
+  if (!quizQuestions || quizQuestions.length < 1) return <NotFoundPage />;
 
   return (
     <QuizSolver quizQuestions={quizQuestions} solvedQuizData={solvedQuizData} />

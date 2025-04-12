@@ -43,7 +43,9 @@ export class UserQuizAnswersService {
     return newUserQuizAnswers as UserQuizAttemptAnswersResponseDto;
   }
 
-  async findAllByUserId(userId: string): Promise<UserQuizBasicAttemptResponseDto[]> {
+  async findAllByUserId(
+    userId: string,
+  ): Promise<UserQuizBasicAttemptResponseDto[]> {
     const answers = await this.prisma.userQuizAnswers.findMany({
       where: {
         userId,
@@ -69,7 +71,7 @@ export class UserQuizAnswersService {
   async findByQuizAndUserId(
     quizId: string,
     userId: string,
-  ): Promise<UserQuizAttemptAnswersResponseDto> {
+  ): Promise<UserQuizAttemptAnswersResponseDto | null> {
     const attempt = await this.prisma.userQuizAnswers.findFirst({
       where: {
         quizId,
@@ -91,8 +93,7 @@ export class UserQuizAnswersService {
       },
     });
 
-    if (!attempt)
-      throw new NotFoundException('Answers for that quiz not found');
+    if (!attempt) return null;
 
     return attempt as UserQuizAttemptAnswersResponseDto;
   }

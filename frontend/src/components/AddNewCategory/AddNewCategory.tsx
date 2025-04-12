@@ -1,13 +1,13 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useCreateNewCategory } from "../../hooks/useCreateNewCategory";
+import { useCreateCategory } from "../../api/category/useCreateCategory";
 import c from "./AddNewCategory.module.css";
 
 export const AddNewCategory = () => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [newTitle, setNewTitle] = useState<string>("");
   const [newImageUrl, setNewImageUrl] = useState<string>("");
-  const { createNewCategoryData } = useCreateNewCategory();
+  const { mutate: createCategory } = useCreateCategory();
 
   const handleButtonClick = () => {
     if (!newTitle.trim()) {
@@ -23,7 +23,12 @@ export const AddNewCategory = () => {
     const formattedTitle =
       newTitle.charAt(0).toUpperCase() + newTitle.slice(1).toLowerCase();
 
-    createNewCategoryData(formattedTitle, newImageUrl);
+    const request = {
+      title: formattedTitle,
+      imageUrl: newImageUrl,
+    };
+
+    createCategory(request);
 
     setNewTitle("");
     setNewImageUrl("");

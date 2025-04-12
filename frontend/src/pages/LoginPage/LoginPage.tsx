@@ -4,7 +4,7 @@ import { ROUTES } from "../../router/routes";
 import { useNavigate } from "react-router-dom";
 import { FormInput } from "../../components/FormInput";
 import { LoginData } from "../../types/LoginData";
-import { useLogin } from "../../hooks/useLogin";
+import { useLogin } from "../../api/user/auth/useLogin";
 import { UserContext } from "../../contexts/UserContext";
 import { formValidation } from "../../utils/formValidation";
 import { loginValidationRules } from "./loginValidationRules";
@@ -16,8 +16,13 @@ export const LoginPage = () => {
     password: "",
   });
 
-  const { userLogin } = useLogin(loginData);
   const navigate = useNavigate();
+  const { mutate: loginUser, isPending } = useLogin(
+    () => refreshUserState(),
+    () => {
+      navigate(ROUTES.QUIZZES_PAGE);
+    }
+  );
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,15 +33,7 @@ export const LoginPage = () => {
         validationRules: loginValidationRules,
       })
     ) {
-      const jwt = await userLogin();
-
-      if (!jwt) {
-        console.log("error with jwt token");
-        return;
-      }
-
-      refreshUserState();
-      navigate(ROUTES.QUIZZES_PAGE);
+      loginUser(loginData);
 
       setLoginData({
         email: "",
@@ -52,7 +49,9 @@ export const LoginPage = () => {
     }));
   };
 
-  return (
+  return isPending ? (
+    <h1>Logging in...</h1>
+  ) : (
     <div className={c.registrationContainer}>
       <form className={c.registrationForm} onSubmit={handleFormSubmit}>
         <FormInput
