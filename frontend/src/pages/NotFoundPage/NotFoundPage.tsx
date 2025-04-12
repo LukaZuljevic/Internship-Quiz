@@ -1,3 +1,12 @@
+import { Link } from "react-router-dom";
+import c from "./NotFoundPage.module.css";
+
 export const NotFoundPage = () => {
-  return <h1>404 PAGE NOT FOUND</h1>;
+  return (
+    <div className={c.notFoundContainer}>
+      <Link to="/app" className={c.homeButton}>
+        Home
+      </Link>
+    </div>
+  );
 };
