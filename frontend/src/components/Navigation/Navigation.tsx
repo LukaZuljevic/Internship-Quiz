@@ -25,17 +25,18 @@ export const Navigation = () => {
 
   return (
     <div id={c.navigation}>
-      <input
-        type="text"
-        placeholder="Enter quiz name"
-        value={search}
-        onChange={(e) => handleInputChange(e)}
-        className={c.searchBar}
-      />
-
-      <button onClick={handleButtonClick} className={c.searchButton}>
-        Search
-      </button>
+      <div className={c.searchWrapper}>
+        <input
+          type="text"
+          placeholder="Enter quiz name"
+          value={search}
+          onChange={(e) => handleInputChange(e)}
+          className={c.searchBar}
+        />
+        <button onClick={handleButtonClick} className={c.searchButton}>
+          Search
+        </button>
+      </div>
       <LogoutButton />
     </div>
   );
