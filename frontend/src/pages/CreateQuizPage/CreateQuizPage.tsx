@@ -16,13 +16,11 @@ import {
 
 export const CreateQuizPage = () => {
   const [currentCategory, setCurrentCategory] = useState<string>("");
-  const { data: categories } = useAllCategories();
-
-  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
-  const { data: questions } = useAllQuestions();
-
   const [quizTitle, setQuitTitle] = useState<string>("");
+  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
 
+  const { data: questions } = useAllQuestions();
+  const { data: categories } = useAllCategories();
   const { mutate: createNewQuiz } = useCreateQuiz();
   const { mutate: createQuizQuestions } = useCreateQuizQuestions();
 

@@ -3,12 +3,19 @@
 }
 
 .leaderboardButton {
-  background-color: rgb(35, 142, 255);
+  background: rgb(35, 142, 255);
   color: white;
   border: none;
-  padding: 8px 16px;
+  padding: 10px 20px;
+  font-size: 1rem;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(35, 142, 255, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.leaderboardButton:hover {
+  transform: translateY(-2px);
 }
 
 .overlay {

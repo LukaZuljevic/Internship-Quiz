@@ -10,8 +10,8 @@ import { Layout } from "../pages/Layout";
 import { QuizPage } from "../pages/QuizPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { Toaster } from "react-hot-toast";
-import { RegisterPage } from "../pages/RegisterPage";
-import { LoginPage } from "../pages/LoginPage";
+import { RegisterPage } from "../pages/Auth/RegisterPage";
+import { LoginPage } from "../pages/Auth/LoginPage";
 import { PrivateRoute } from "./PrivateRoute";
 import { CreateQuizPage } from "../pages/CreateQuizPage";
 

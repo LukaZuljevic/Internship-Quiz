@@ -1,12 +1,12 @@
 import c from "../RegisterPage/RegisterPage.module.css";
 import { useContext, useState } from "react";
-import { ROUTES } from "../../router/routes";
+import { ROUTES } from "../../../router/routes";
 import { useNavigate } from "react-router-dom";
-import { FormInput } from "../../components/FormInput";
-import { LoginData } from "../../types/LoginData";
-import { useLogin } from "../../api/user/auth/useLogin";
-import { UserContext } from "../../contexts/UserContext";
-import { formValidation } from "../../utils/formValidation";
+import { FormInput } from "../../../components/FormInput";
+import { LoginData } from "../../../types/LoginData";
+import { useLogin } from "../../../api/user/auth/useLogin";
+import { UserContext } from "../../../contexts/UserContext";
+import { formValidation } from "../../../utils/formValidation";
 import { loginValidationRules } from "./loginValidationRules";
 
 export const LoginPage = () => {
@@ -17,13 +17,13 @@ export const LoginPage = () => {
   });
 
   const navigate = useNavigate();
+
   const clearForm = () => {
     setLoginData({
       email: "",
       password: "",
     });
   };
-
   const { mutate: loginUser } = useLogin(
     () => refreshUserState(),
     () => {

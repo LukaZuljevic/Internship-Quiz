@@ -3,7 +3,6 @@ import c from "./QuizSolver.module.css";
 import { QuizQuestion } from "../QuizQuestion";
 import { useContext, useEffect, useState } from "react";
 import { Answer } from "../../types/Answer";
-import { useCreateQuizAttempt } from "../../api/quiz-attempt/useCreateQuizAttempt";
 import { QuizAttempt, QuizBasicAttemptInfo } from "../../types/QuizAttempt";
 import { UserContext } from "../../contexts/UserContext";
 import { QuestionType } from "../../types/appGlobalTypes";
@@ -12,11 +11,15 @@ import { useQuizAttempt } from "../../api/quiz-attempt/useQuizAttempt";
 type QuizSolverProps = {
   quizQuestions: QuizQuestionType[];
   solvedQuizData?: QuizBasicAttemptInfo;
+  createQuizAttempt: (quizAttempt: QuizAttempt) => void;
+  isTimerExpired: boolean;
 };
 
 export const QuizSolver = ({
   quizQuestions,
   solvedQuizData,
+  createQuizAttempt,
+  isTimerExpired,
 }: QuizSolverProps) => {
   const { userId } = useContext(UserContext);
 
@@ -28,7 +31,11 @@ export const QuizSolver = ({
     userId,
     solvedQuizData?.quizId || ""
   );
-  const { mutate: createQuizAttempt } = useCreateQuizAttempt();
+  useEffect(() => {
+    if (isTimerExpired) {
+      handleSubmitClick();
+    }
+  }, [isTimerExpired]);
 
   useEffect(() => {
     if (previousAnswers) {
@@ -80,6 +87,8 @@ export const QuizSolver = ({
   };
 
   const handleSubmitClick = () => {
+    if (isSubmitDisabled) return;
+
     const newResults = evaluateAnswers(answers);
 
     let calculatedScore = 0;

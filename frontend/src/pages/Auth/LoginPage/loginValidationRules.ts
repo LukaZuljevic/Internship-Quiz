@@ -1,6 +1,6 @@
-import { EMAIL_REGEX } from "../../constants";
-import { LoginData } from "../../types/LoginData";
-import { ValidationRules } from "../../types/ValidationsRules";
+import { EMAIL_REGEX } from "../../../constants";
+import { LoginData } from "../../../types/LoginData";
+import { ValidationRules } from "../../../types/ValidationsRules";
 
 export const loginValidationRules: ValidationRules<LoginData> = {
   email: {

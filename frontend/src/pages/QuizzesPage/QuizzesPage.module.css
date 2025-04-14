@@ -11,27 +11,17 @@
   margin-top: 32px;
 }
 
-.filterAndPoints {
+.pointsAndFilter {
   display: flex;
-  justify-content: center;
-  margin: 20px;
-  margin-top: 36px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   gap: 16px;
-  align-items: center;
 }
 
-.adminButtons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-}
-
-.createQuizButton {
-  background-color: rgb(35, 142, 255);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  cursor: pointer;
-  border-radius: 8px;
+.totalPoints {
+  font-size: 3rem;
+  color: rgb(46, 46, 46);
+  text-align: center;
+  margin-top: 16px;
 }

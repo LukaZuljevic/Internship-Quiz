@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { RegistrationData } from "../../types/RegistrationData";
-import { FormInput } from "../../components/FormInput";
-import { useRegister } from "../../api/user/auth/useRegister";
+import { RegistrationData } from "../../../types/RegistrationData";
+import { FormInput } from "../../../components/FormInput";
+import { useRegister } from "../../../api/user/auth/useRegister";
 import c from "./RegisterPage.module.css";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../router/routes";
+import { ROUTES } from "../../../router/routes";
 import { registrationValidationRules } from "./registrationValidationRules";
-import { formValidation } from "../../utils/formValidation";
+import { formValidation } from "../../../utils/formValidation";
 
 export const RegisterPage = () => {
   const [registrationData, setRegistrationData] = useState<RegistrationData>({

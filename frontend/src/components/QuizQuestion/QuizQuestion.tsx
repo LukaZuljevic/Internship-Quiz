@@ -70,13 +70,16 @@ export const QuizQuestion = ({
 
   const handleValueChange = (answer: string) => {
     setAnswer(answer);
+    onAnswerChange(answer);
   };
 
   const handleMatchChange = (pendingAnswer: string, option: string) => {
-    setAnswer((prev) => ({
-      ...(typeof prev === "object" && !Array.isArray(prev) ? prev : {}),
+    const newAnswer = {
+      ...(typeof answer === "object" && !Array.isArray(answer) ? answer : {}),
       [option]: pendingAnswer,
-    }));
+    };
+    setAnswer(newAnswer);
+    onAnswerChange(newAnswer);
   };
 
   const handleOrderChangeClick = (direction: "up" | "down", index: number) => {
@@ -98,20 +101,15 @@ export const QuizQuestion = ({
     ];
 
     setAnswer(newOrder);
+    onAnswerChange(newOrder);
   };
-
-  useEffect(() => {
-    if (currentAnswer !== answer) {
-      onAnswerChange(answer);
-    }
-  }, [answer]);
 
   const renderFieldQuestion = () => {
     return (
       <input
         type="text"
         value={typeof answer === "string" ? answer : ""}
-        placeholder="Enter you answer"
+        placeholder="Enter your answer"
         onChange={(e) => handleValueChange(e.target.value)}
         disabled={isCorrect !== undefined}
         className={c.textInput}
@@ -218,7 +216,7 @@ export const QuizQuestion = ({
         (isCorrect ? (
           <p className={c.correct}>Correct!</p>
         ) : (
-          <p className={c.incorrect}>Incorect!</p>
+          <p className={c.incorrect}>Incorrect!</p>
         ))}
       <hr></hr>
     </>

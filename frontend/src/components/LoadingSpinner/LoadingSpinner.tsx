@@ -8,8 +8,6 @@ export const LoadingSpinner = () => {
         visible={true}
         height="180"
         width="180"
-        wrapperStyle={{}}
-        wrapperClass="color-ring-wrapper"
         colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
       />
     </div>
