@@ -31,6 +31,7 @@ export const QuizSolver = ({
     userId,
     solvedQuizData?.quizId || ""
   );
+
   useEffect(() => {
     if (isTimerExpired) {
       handleSubmitClick();
