@@ -8,5 +8,5 @@ export const ROUTES: Routes = {
   QUIZZES_PAGE: "/app",
   QUIZ_PAGE: "/app/:quizId",
   NOT_FOUND_PAGE: "*",
-  CREATE_QUIZ_PAGE: "/app/create-quiz",
+  CREATE_QUIZ_PAGE: "/app/admin/create-quiz",
 };
