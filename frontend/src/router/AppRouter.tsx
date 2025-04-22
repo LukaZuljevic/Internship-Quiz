@@ -21,15 +21,24 @@ export const AppRouter = () => {
       <Routes>
         <Route path="/" element={<Navigate to={ROUTES.QUIZZES_PAGE} />} />
         <Route path={ROUTES.QUIZZES_PAGE} element={<Layout />}>
-          <Route index element={<PrivateRoute element={<QuizzesPage />} />} />
+          <Route
+            index
+            element={
+              <PrivateRoute element={<QuizzesPage />} hasAdminCheck={false} />
+            }
+          />
           <Route
             path={ROUTES.QUIZ_PAGE}
-            element={<PrivateRoute element={<QuizPage />} />}
+            element={
+              <PrivateRoute element={<QuizPage />} hasAdminCheck={false} />
+            }
           />
         </Route>
         <Route
           path={ROUTES.CREATE_QUIZ_PAGE}
-          element={<PrivateRoute element={<CreateQuizPage />} />}
+          element={
+            <PrivateRoute element={<CreateQuizPage />} hasAdminCheck={true} />
+          }
         />
         <Route path={ROUTES.NOT_FOUND_PAGE} element={<NotFoundPage />} />
         <Route path={ROUTES.REGISTER} element={<RegisterPage />} />

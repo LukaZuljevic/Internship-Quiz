@@ -13,6 +13,7 @@ type QuizSolverProps = {
   solvedQuizData?: QuizBasicAttemptInfo;
   createQuizAttempt: (quizAttempt: QuizAttempt) => void;
   isTimerExpired: boolean;
+  setIsSubmittedFlag: (isSubmittedFlag: boolean) => void;
 };
 
 export const QuizSolver = ({
@@ -20,6 +21,7 @@ export const QuizSolver = ({
   solvedQuizData,
   createQuizAttempt,
   isTimerExpired,
+  setIsSubmittedFlag,
 }: QuizSolverProps) => {
   const { userId } = useContext(UserContext);
 
@@ -36,7 +38,7 @@ export const QuizSolver = ({
     if (isTimerExpired) {
       handleSubmitClick();
     }
-  }, [isTimerExpired]);
+  }, []);
 
   useEffect(() => {
     if (previousAnswers) {
@@ -107,6 +109,7 @@ export const QuizSolver = ({
     createQuizAttempt(quizAttemptRequest);
 
     setResult(newResults);
+    setIsSubmittedFlag(true);
     setIsSubmitDisabled(true);
   };
 
