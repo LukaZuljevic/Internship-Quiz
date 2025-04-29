@@ -36,17 +36,9 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-      - name: Build and push docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ghcr.io/${{ github.repository_owner }}/internship-quiz:${{ github.sha }},
+          tags:
+            ghcr.io/${{ github.repository_owner }}/internship-quiz:${{ github.sha }},
             ghcr.io/${{ github.repository_owner }}/internship-quiz:${{ github.ref_name }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
