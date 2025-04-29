@@ -20,7 +20,7 @@ import { join } from 'path';
     QuizQuestionModule,
     UserQuizAnswersModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', '..', "..", 'frontend', 'dist'),
+      rootPath: join(__dirname, '..', '..', 'frontend', 'dist'),
     }),
   ],
   controllers: [AppController],
