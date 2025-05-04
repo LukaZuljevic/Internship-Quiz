@@ -11,10 +11,10 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
 
-  const url = process.env.BASE_URL;
+  const deploymentUrl = process.env.BASE_URL;
 
   app.enableCors({
-    origin: url,
+    origin: [deploymentUrl, 'http://localhost:5173'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type, Authorization',
   });
