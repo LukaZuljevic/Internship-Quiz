@@ -1,5 +1,5 @@
 export const VITE_BASE_URL =
-  process.env.VITE_BASE_URL || "http://localhost:3000";
+  import.meta.env.VITE_BASE_URL || "http://localhost:3000";
 
 export const QUIZ_API_PATH = "/quiz";
 
