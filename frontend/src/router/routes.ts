@@ -5,7 +5,8 @@ type Routes = {
 export const ROUTES: Routes = {
   REGISTER: "/register",
   LOGIN: "/login",
-  QUIZZES_PAGE: "/",
+  HOME: "/",
+  QUIZZES_PAGE: "/quizzes",
   QUIZ_PAGE: "/:quizId",
   NOT_FOUND_PAGE: "*",
   CREATE_QUIZ_PAGE: "/admin/create-quiz",

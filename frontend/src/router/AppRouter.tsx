@@ -14,12 +14,25 @@ import { RegisterPage } from "../pages/Auth/RegisterPage";
 import { LoginPage } from "../pages/Auth/LoginPage";
 import { PrivateRoute } from "./PrivateRoute";
 import { CreateQuizPage } from "../pages/CreateQuizPage";
+import { UserContext } from "../contexts/UserContext";
+import { useContext } from "react";
 
 export const AppRouter = () => {
+  const { isAuthenticated } = useContext(UserContext);
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to={ROUTES.QUIZZES_PAGE} />} />
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? (
+              <Navigate to={ROUTES.QUIZZES_PAGE} replace />
+            ) : (
+              <Navigate to={ROUTES.LOGIN} replace />
+            )
+          }
+        />
         <Route path={ROUTES.QUIZZES_PAGE} element={<Layout />}>
           <Route
             index
