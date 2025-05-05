@@ -7,7 +7,7 @@ export const ROUTES: Routes = {
   LOGIN: "/login",
   HOME: "/",
   QUIZZES_PAGE: "/quizzes",
-  QUIZ_PAGE: "/:quizId",
+  QUIZ_PAGE: ":quizId",
   NOT_FOUND_PAGE: "*",
   CREATE_QUIZ_PAGE: "/admin/create-quiz",
 };
